@@ -98,14 +98,14 @@ export class HeroCarousel {
     }
 
     this.simplified = isMobile();
-    // Playing-card format — keep ring spacing, add slots if cards get narrower
-    this.planeW = this.simplified ? 1.05 : 1.2;
-    this.planeH = this.simplified ? 1.48 : 1.68;
-    this.radius = this.simplified ? 4.0 : 4.3;
+    // Mobile: larger cards, tighter camera — fills the stage
+    this.planeW = this.simplified ? 1.32 : 1.2;
+    this.planeH = this.simplified ? 1.85 : 1.68;
+    this.radius = this.simplified ? 3.85 : 4.3;
     this.baseRadius = this.radius;
-    this.cameraZ = this.simplified ? 7.2 : 9.0;
+    this.cameraZ = this.simplified ? 5.85 : 9.0;
     this.baseCameraZ = this.cameraZ;
-    this.tiltDeg = -13;
+    this.tiltDeg = this.simplified ? -11 : -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
     this.bendAmount = 0.12;
     this.damping = this.simplified ? 0.9 : 0.94;
@@ -169,7 +169,7 @@ export class HeroCarousel {
 
   setupScene() {
     this.scene = new THREE.Scene();
-    const fov = this.simplified ? 44 : 24;
+    const fov = this.simplified ? 28 : 24;
     this.camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
     this.camera.position.set(0, 0, this.cameraZ);
     this.camera.lookAt(0, 0, 0);
@@ -868,7 +868,7 @@ export class HeroCarousel {
     this.lastX = e.clientX;
 
     if (this.simplified) {
-      const dragRot = -dx * this._dragGain;
+      const dragRot = dx * this._dragGain;
       this.rotation += dragRot;
       this.velocity = dragRot * 0.9;
       return;

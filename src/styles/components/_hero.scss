@@ -128,10 +128,23 @@
     margin-top: 0.5rem;
     pointer-events: none;
 
+    @media (max-width: 767px) {
+      min-height: min(74vh, 820px);
+      margin-top: 0;
+    }
+
     .hero.is-carousel & {
       pointer-events: auto;
       touch-action: none;
       overscroll-behavior: contain;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding-bottom: 1rem;
+
+    &.is-carousel &__footer {
+      padding-top: 0.35rem;
     }
   }
 
