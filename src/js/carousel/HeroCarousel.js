@@ -49,7 +49,10 @@ export class HeroCarousel {
     this.radius = 4.3;
     this.baseRadius = 4.3;
     this.rotation = 0;
+    this._smoothRot = 0;
     this.velocity = 0;
+    this._touchDx = 0;
+    this._maxVelocity = 0.05;
     this.autoSpeed = -0.00032;
     this.damping = 0.94;
     this._dragGain = 0.0002;
@@ -98,18 +101,20 @@ export class HeroCarousel {
     }
 
     this.simplified = isMobile();
-    // Mobile: playing-card format, tighter ring spacing
-    this.planeW = this.simplified ? 1.08 : 1.2;
-    this.planeH = this.simplified ? 1.51 : 1.68;
-    this.radius = this.simplified ? 4.0 : 4.3;
+    // Mobile: compact playing-card ring — full slot count keeps cards close
+    this.planeW = this.simplified ? 1.06 : 1.2;
+    this.planeH = this.simplified ? 1.48 : 1.68;
+    this.radius = this.simplified ? 3.78 : 4.3;
     this.baseRadius = this.radius;
-    this.cameraZ = this.simplified ? 7.0 : 9.0;
+    this.cameraZ = this.simplified ? 7.05 : 9.0;
     this.baseCameraZ = this.cameraZ;
     this.tiltDeg = -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
     this.bendAmount = 0.12;
-    this.damping = this.simplified ? 0.86 : 0.94;
-    this._dragGain = this.simplified ? 0.0024 : 0.0002;
+    this.damping = this.simplified ? 0.78 : 0.94;
+    this._dragGain = this.simplified ? 0.00135 : 0.0002;
+    this._maxVelocity = this.simplified ? 0.008 : 0.05;
+    this.autoSpeed = this.simplified ? -0.00018 : -0.00032;
 
     this.setupRenderer();
     this.setupScene();
@@ -169,7 +174,7 @@ export class HeroCarousel {
 
   setupScene() {
     this.scene = new THREE.Scene();
-    const fov = this.simplified ? 34 : 24;
+    const fov = this.simplified ? 36 : 24;
     this.camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
     this.camera.position.set(0, 0, this.cameraZ);
     this.camera.lookAt(0, 0, 0);
@@ -324,7 +329,7 @@ export class HeroCarousel {
     this.uniqueCount = this.textures.length || 1;
 
     // Mobile: fewer slots = visible gaps between playing cards; desktop keeps full ring
-    const target = this.simplified ? 14 : 18;
+    const target = 18;
     const slotTextures = [];
     while (slotTextures.length < target) {
       for (let i = 0; i < this.textures.length && slotTextures.length < target; i++) {
@@ -334,7 +339,7 @@ export class HeroCarousel {
 
     this.itemCount = slotTextures.length;
     const step = (Math.PI * 2) / this.itemCount;
-    const segments = this.simplified ? 8 : 14;
+    const segments = this.simplified ? 6 : 14;
 
     slotTextures.forEach((texture, i) => {
       const geo = new THREE.PlaneGeometry(this.planeW, this.planeH, segments, 1);
@@ -849,8 +854,11 @@ export class HeroCarousel {
 
   onPointerDown(e) {
     if (e.target.closest('a, button, input')) return;
+    gsap.killTweensOf(this);
     this.pointerDown = true;
     this._pointerMoved = false;
+    this._touchDx = 0;
+    this.velocity = 0;
     const mesh = this.pickCardAt(e.clientX, e.clientY);
     this._tapOnCard = !!mesh && this.mode !== 'private';
     this._tapProjectIndex = mesh?.userData?.index ?? -1;
@@ -868,9 +876,11 @@ export class HeroCarousel {
     this.lastX = e.clientX;
 
     if (this.simplified) {
-      const dragRot = dx * this._dragGain;
+      this._touchDx = this._touchDx * 0.55 + dx * 0.45;
+      const dragRot = this._touchDx * this._dragGain;
       this.rotation += dragRot;
-      this.velocity = dragRot * 0.55;
+      this.velocity = clamp(dragRot * 0.22, -this._maxVelocity, this._maxVelocity);
+      this._smoothRot = this.rotation;
       return;
     }
 
@@ -968,17 +978,23 @@ export class HeroCarousel {
   }
 
   snapOptional(force = false) {
-    const threshold = this.simplified ? 0.015 : 0.04;
+    const threshold = this.simplified ? 0.006 : 0.04;
     if (!force && Math.abs(this.velocity) > threshold) return;
     const step = (Math.PI * 2) / this.itemCount;
     const nearest = Math.round(this.rotation / step) * step;
+    gsap.killTweensOf(this);
     gsap.to(this, {
       rotation: nearest,
-      duration: this.simplified ? 0.45 : 0.65,
-      ease: 'power3.out',
+      duration: this.simplified ? 0.72 : 0.65,
+      ease: this.simplified ? 'power2.inOut' : 'power3.out',
       overwrite: 'auto',
+      onUpdate: () => {
+        if (this.simplified) this._smoothRot = this.rotation;
+      },
       onComplete: () => {
         this.velocity = 0;
+        this._touchDx = 0;
+        this._smoothRot = this.rotation;
       },
     });
   }
@@ -1042,14 +1058,31 @@ export class HeroCarousel {
     if (this._needsSync) this.syncToStage();
     if (!active) return;
 
-    this.velocity *= this.damping;
+    const dt = Math.min(gsap.ticker.deltaRatio(), 2.5);
+    this.velocity *= Math.pow(this.damping, dt);
     if (Math.abs(this.velocity) < 0.00004) this.velocity = 0;
+    if (this.simplified) {
+      this.velocity = clamp(this.velocity, -this._maxVelocity, this._maxVelocity);
+    }
+
     const modeBoost = this._modeBoost || 0;
     const auto = this.pointerDown ? 0 : this.autoSpeed;
-    this.rotation += auto + this.velocity + modeBoost;
+    this.rotation += (auto + this.velocity + modeBoost) * dt;
 
+    if (this.simplified) {
+      if (this.pointerDown || gsap.isTweening(this)) {
+        this._smoothRot = this.rotation;
+      } else {
+        const follow = Math.min(0.18 * dt, 1);
+        this._smoothRot += (this.rotation - this._smoothRot) * follow;
+      }
+    } else {
+      this._smoothRot = this.rotation;
+    }
+
+    const viewRot = this._smoothRot;
     this.group.rotation.x = this._tiltRad;
-    this.group.rotation.y = this.rotation;
+    this.group.rotation.y = viewRot;
 
     // Map drag into a tiny vertex skew only — mode spin stays sharp (no smear)
     const drag = Math.abs(this.velocity) * 14;
@@ -1060,7 +1093,7 @@ export class HeroCarousel {
     for (let i = 0; i < this.planes.length; i++) {
       const mesh = this.planes[i];
       const mat = mesh.material;
-      const facing = Math.cos(mesh.userData.baseAngle + this.rotation);
+      const facing = Math.cos(mesh.userData.baseAngle + viewRot);
 
       if (moving && !this.simplified) mat.uniforms.uVelocity.value = velAbs;
       else if (mat.uniforms.uVelocity.value !== 0) mat.uniforms.uVelocity.value = 0;
