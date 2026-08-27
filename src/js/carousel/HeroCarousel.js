@@ -108,8 +108,8 @@ export class HeroCarousel {
     this.tiltDeg = this.simplified ? -11 : -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
     this.bendAmount = 0.12;
-    this.damping = this.simplified ? 0.9 : 0.94;
-    this._dragGain = this.simplified ? 0.0042 : 0.0002;
+    this.damping = this.simplified ? 0.86 : 0.94;
+    this._dragGain = this.simplified ? 0.0024 : 0.0002;
 
     this.setupRenderer();
     this.setupScene();
@@ -870,7 +870,7 @@ export class HeroCarousel {
     if (this.simplified) {
       const dragRot = dx * this._dragGain;
       this.rotation += dragRot;
-      this.velocity = dragRot * 0.9;
+      this.velocity = dragRot * 0.55;
       return;
     }
 
