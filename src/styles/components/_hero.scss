@@ -129,8 +129,8 @@
     pointer-events: none;
 
     @media (max-width: 767px) {
-      min-height: min(74vh, 820px);
-      margin-top: 0;
+      min-height: min(68vh, 720px);
+      margin-top: 0.25rem;
     }
 
     .hero.is-carousel & {

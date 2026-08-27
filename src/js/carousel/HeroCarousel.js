@@ -98,14 +98,14 @@ export class HeroCarousel {
     }
 
     this.simplified = isMobile();
-    // Mobile: larger cards, tighter camera — fills the stage
-    this.planeW = this.simplified ? 1.32 : 1.2;
-    this.planeH = this.simplified ? 1.85 : 1.68;
-    this.radius = this.simplified ? 3.85 : 4.3;
+    // Mobile: slightly larger than desktop, but spaced ring (14 slots) so cards stay distinct
+    this.planeW = this.simplified ? 1.15 : 1.2;
+    this.planeH = this.simplified ? 1.61 : 1.68;
+    this.radius = this.simplified ? 4.25 : 4.3;
     this.baseRadius = this.radius;
-    this.cameraZ = this.simplified ? 5.85 : 9.0;
+    this.cameraZ = this.simplified ? 6.75 : 9.0;
     this.baseCameraZ = this.cameraZ;
-    this.tiltDeg = this.simplified ? -11 : -13;
+    this.tiltDeg = -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
     this.bendAmount = 0.12;
     this.damping = this.simplified ? 0.86 : 0.94;
@@ -169,7 +169,7 @@ export class HeroCarousel {
 
   setupScene() {
     this.scene = new THREE.Scene();
-    const fov = this.simplified ? 28 : 24;
+    const fov = this.simplified ? 34 : 24;
     this.camera = new THREE.PerspectiveCamera(fov, 1, 0.1, 100);
     this.camera.position.set(0, 0, this.cameraZ);
     this.camera.lookAt(0, 0, 0);
@@ -323,8 +323,8 @@ export class HeroCarousel {
     this.textures = this.mode === 'private' ? this.texturesLife : this.texturesPro;
     this.uniqueCount = this.textures.length || 1;
 
-    // Repeat around the ring — more slots for narrower card format
-    const target = this.simplified ? this.uniqueCount : 18;
+    // Mobile: fewer slots = visible gaps between playing cards; desktop keeps full ring
+    const target = this.simplified ? 14 : 18;
     const slotTextures = [];
     while (slotTextures.length < target) {
       for (let i = 0; i < this.textures.length && slotTextures.length < target; i++) {
