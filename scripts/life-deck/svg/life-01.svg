@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200">
+  <rect width="960" height="1200" fill="#F6F1E8"/>
+  <rect x="34" y="34" width="892" height="1132" rx="32" fill="none" stroke="#FF6B4A" stroke-width="5.5"/>
+  <rect x="50" y="50" width="860" height="1100" rx="22" fill="none" stroke="#FF6B4A" stroke-width="1.6"/>
+  <!-- indices -->
+  <g transform="translate(88, 118)">
+    <g fill="#FF6B4A" color="#FF6B4A">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">P</text>
+      <g transform="translate(0, 42) scale(1.35)">
+    <ellipse cx="0" cy="-3" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.2"/>
+    <rect x="-1.2" y="5" width="2.4" height="8" rx="1"/></g>
+    </g></g>
+  <g transform="rotate(180 480 600) translate(88, 118)">
+    <g fill="#FF6B4A" color="#FF6B4A">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">P</text>
+      <g transform="translate(0, 42) scale(1.35)">
+    <ellipse cx="0" cy="-3" rx="7" ry="9" fill="none" stroke="currentColor" stroke-width="2.2"/>
+    <rect x="-1.2" y="5" width="2.4" height="8" rx="1"/></g>
+    </g></g>
+  
+      <!-- upper figure -->
+      <g transform="translate(480, 305) scale(0.92)" fill="#FF6B4A" color="#FF6B4A">
+  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="currentColor">
+    <circle cx="-6" cy="-88" r="20" stroke="none"/>
+    <!-- torso -->
+    <path d="M-10-64 C8-60 22-40 18-8 C14 22 4 48-8 70" fill="none" stroke-width="28"/>
+    <!-- back leg / front leg -->
+    <path d="M-8 62 L-48 118" fill="none" stroke-width="18"/>
+    <path d="M-4 58 L42 122" fill="none" stroke-width="18"/>
+    <!-- trailing arm -->
+    <path d="M0-40 L-62 8" fill="none" stroke-width="16"/>
+    <!-- hitting arm -->
+    <path d="M12-36 L72-78" fill="none" stroke-width="16"/>
+    <!-- racket -->
+    <ellipse cx="102" cy="-98" rx="34" ry="44" fill="none" stroke-width="10"/>
+    <circle cx="102" cy="-98" r="8" stroke="none" opacity="0.35"/>
+    <!-- ball -->
+    <circle cx="158" cy="-128" r="12" stroke="none"/>
+    <!-- swing arcs -->
+    <path d="M130-60 Q150-90 138-118" fill="none" stroke-width="3" opacity="0.4"/>
+    <path d="M142-48 Q168-82 152-112" fill="none" stroke-width="2.5" opacity="0.28"/>
+  </g></g>
+      <!-- lower figure (mirrored like a court card) -->
+      <g transform="translate(480, 895) rotate(180) scale(0.92)" fill="#FF6B4A" color="#FF6B4A">
+  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="currentColor">
+    <circle cx="-6" cy="-88" r="20" stroke="none"/>
+    <!-- torso -->
+    <path d="M-10-64 C8-60 22-40 18-8 C14 22 4 48-8 70" fill="none" stroke-width="28"/>
+    <!-- back leg / front leg -->
+    <path d="M-8 62 L-48 118" fill="none" stroke-width="18"/>
+    <path d="M-4 58 L42 122" fill="none" stroke-width="18"/>
+    <!-- trailing arm -->
+    <path d="M0-40 L-62 8" fill="none" stroke-width="16"/>
+    <!-- hitting arm -->
+    <path d="M12-36 L72-78" fill="none" stroke-width="16"/>
+    <!-- racket -->
+    <ellipse cx="102" cy="-98" rx="34" ry="44" fill="none" stroke-width="10"/>
+    <circle cx="102" cy="-98" r="8" stroke="none" opacity="0.35"/>
+    <!-- ball -->
+    <circle cx="158" cy="-128" r="12" stroke="none"/>
+    <!-- swing arcs -->
+    <path d="M130-60 Q150-90 138-118" fill="none" stroke-width="3" opacity="0.4"/>
+    <path d="M142-48 Q168-82 152-112" fill="none" stroke-width="2.5" opacity="0.28"/>
+  </g></g>
+      <!-- center ornament -->
+      <g transform="translate(480, 600)" fill="#FF6B4A">
+        <line x1="-120" y1="0" x2="-28" y2="0" stroke="#FF6B4A" stroke-width="1.5" opacity="0.45"/>
+        <line x1="28" y1="0" x2="120" y2="0" stroke="#FF6B4A" stroke-width="1.5" opacity="0.45"/>
+        <g transform="scale(1.1)"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g>
+      </g>
+</svg>

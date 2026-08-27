@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <script>
+      try {
+        var m = localStorage.getItem('nh-site-mode');
+        if (m === 'pro' || m === 'private') document.documentElement.setAttribute('data-site-mode', m);
+      } catch (e) {}
+      try {
+        var t = localStorage.getItem('nh-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+      try {
+        if (sessionStorage.getItem('nh-wipe-out') === '1') document.documentElement.classList.add('is-wipe-pending');
+      } catch (e) {}
+
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Lebenslauf — Nico Hennecke, Art Director in Köln. Stationen, Ausbildung, Skills."
+    />
+    <title>Lebenslauf — Nico Hennecke</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,900&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style id="boot-fouc">html:not(.is-app-ready) body{visibility:hidden}html:not(.is-app-ready){background:#e9ebe8}html[data-theme=dark]:not(.is-app-ready){background:#121614}html[data-site-mode=private]:not(.is-app-ready){background:#1c4ed8}html[data-site-mode=private][data-theme=dark]:not(.is-app-ready){background:#153eb0}html.is-wipe-pending:not(.is-app-ready){background:#121614}html[data-theme=dark].is-wipe-pending:not(.is-app-ready){background:#e9ebe8}html[data-site-mode=private].is-wipe-pending:not(.is-app-ready){background:#fff}html.is-wipe-pending:not(.is-app-ready) body{visibility:visible}html.is-wipe-pending:not(.is-app-ready) body>*:not(.transition-overlay){visibility:hidden}</style>
+    <style id="cursor-fouc">.cursor{opacity:0!important;visibility:hidden!important;pointer-events:none!important}.cursor.is-ready.is-primed{opacity:1!important;visibility:visible!important}.cursor__card{opacity:0!important;visibility:hidden!important;width:2.85rem;height:2.85rem}.cursor.is-hover .cursor__card{opacity:1!important;visibility:visible!important}.cursor__card-icon svg{width:16px!important;height:16px!important}</style>
+</head>
+  <body data-barba="wrapper">
+    <a class="skip-link" href="#main">Zum Inhalt</a>
+    <div class="cursor" aria-hidden="true" style="opacity:0;visibility:hidden;pointer-events:none">
+      <div class="cursor__dot"></div>
+      <div class="cursor__ring"></div>
+      <div class="cursor__card" style="opacity:0;visibility:hidden;scale:0.35">
+        <span class="cursor__card-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="transition-overlay" aria-hidden="true">
+      <span class="transition-overlay__mark">NH</span>
+    </div>
+    <canvas id="webgl-back" class="webgl-canvas webgl-canvas--back" aria-hidden="true"></canvas>
+    <canvas id="webgl-canvas" class="webgl-canvas webgl-canvas--front" aria-hidden="true"></canvas>
+
+    <header class="site-header" data-header>
+      <div class="site-header__inner">
+        <a class="branding" href="/" data-cursor="hover" aria-label="Nico Hennecke Startseite">Nico Hennecke</a>
+        <div class="site-header__actions" id="site-nav">
+          <nav class="nav-main" aria-label="Hauptnavigation">
+            <ul class="nav-main__list">
+              <li class="nav-main__item"><a class="nav-main__link" href="/" data-cursor="hover"><span class="nav-main__mode" data-mode="pro">Work</span><span class="nav-main__mode" data-mode="private">Stuff</span></a></li>
+              <li class="nav-main__item"><a class="nav-main__link is-active" href="/cv.html" data-cursor="hover"><span class="nav-main__mode" data-mode="pro">CV</span><span class="nav-main__mode" data-mode="private">Log</span></a></li>
+            </ul>
+          </nav>
+          <a class="pill-contact site-header__pill" href="/contact.html" data-tone="dark">
+            <span class="pill-contact__label" data-mode="pro">Projekt anfragen</span>
+            <span class="pill-contact__label" data-mode="private">Auf ein Kölsch?</span>
+            <span class="pill-contact__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="site-header__controls">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Darstellung wechseln">
+            <span class="theme-toggle__clip" aria-hidden="true">
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="sun" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.05 5.05l1.56 1.56M17.39 17.39l1.56 1.56M18.95 5.05l-1.56 1.56M6.61 17.39l-1.56 1.56" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="moon" viewBox="0 0 24 24" fill="none">
+                <path d="M18.5 14.2A7.2 7.2 0 0 1 9.8 5.5 7.5 7.5 0 1 0 18.5 14.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <button class="mode-toggle" type="button" data-mode-toggle aria-label="Work- und Life-Modus wechseln" title="Work / Life">
+            <span class="mode-toggle__clip" aria-hidden="true">
+              <span class="mode-toggle__label" data-mode-toggle-label="pro">Work</span>
+              <span class="mode-toggle__label" data-mode-toggle-label="private">Life</span>
+            </span>
+          </button>
+          <button class="lang-switcher" type="button" aria-label="Sprache: Deutsch" data-cursor="hover">
+            <span class="lang-switcher__clip" aria-hidden="true">
+              <span class="lang-switcher__label" data-lang="current">DE</span>
+              <span class="lang-switcher__label" data-lang="target">EN</span>
+            </span>
+          </button>
+          <button class="hamburger" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Menü öffnen">
+            <svg class="hamburger__icon" viewBox="0 0 16 16" aria-hidden="true">
+              <g class="hamburger__shape" data-hamburger="open">
+                <rect x="1" y="3.5" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="7.25" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="11" width="14" height="1.5" rx="0.75"/>
+              </g>
+              <g class="hamburger__shape" data-hamburger="close">
+                <path d="M3.2 3.2l9.6 9.6M12.8 3.2L3.2 12.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" data-barba="container" data-barba-namespace="cv">
+      <section class="cv-hero" data-section>
+        <div class="container cv-hero__grid" data-mode="pro">
+          <div class="cv-hero__copy">
+            <p class="section__label">Lebenslauf</p>
+            <h1 class="cv-hero__title" data-split>Art Director.<br />Köln.</h1>
+            <p class="cv-hero__lead">
+              Marken, Kampagnen und Editorial — von der ersten Idee bis zum System, das im Alltag
+              funktioniert. Aktuell bei K1 Kommunikation, parallel Brand Consultant für DACH CS.
+            </p>
+            <div class="cv-hero__meta">
+              <span>Seit 2023</span>
+              <span>Branding · Print · Digital</span>
+            </div>
+          </div>
+          <aside class="cv-hero__aside" aria-label="Portrait und Kontakt">
+            <figure class="cv-hero__portrait">
+              <img src="/images/nico-portrait.webp" alt="Nico Hennecke" width="960" height="1200" />
+            </figure>
+            <div class="cv-card cv-card--compact">
+              <dl class="cv-card__facts">
+                <div>
+                  <dt>Rolle</dt>
+                  <dd>Art Director · Brand Consultant</dd>
+                </div>
+                <div>
+                  <dt>Basis</dt>
+                  <dd>Köln · K1 · DACH CS</dd>
+                </div>
+                <div>
+                  <dt>Mail</dt>
+                  <dd><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></dd>
+                </div>
+                <div>
+                  <dt>Web</dt>
+                  <dd><a href="https://nicohennecke.de" rel="noopener noreferrer" target="_blank">nicohennecke.de</a></dd>
+                </div>
+                <div>
+                  <dt>Instagram</dt>
+                  <dd><a href="https://instagram.com/henneckedesign" rel="noopener noreferrer" target="_blank">@henneckedesign</a></dd>
+                </div>
+              </dl>
+              <a class="btn cv-card__btn" href="/contact.html">Projekt anfragen</a>
+            </div>
+          </aside>
+        </div>
+        <div class="container cv-hero__grid" data-mode="private">
+          <div class="cv-hero__copy">
+            <p class="section__label">Log</p>
+            <h1 class="cv-hero__title" data-split>Life-Log.<br />Köln.</h1>
+            <p class="cv-hero__lead">
+              Padel, Film, Comics und die Europa-Karte — das Nebenbei, kurz festgehalten.
+              Kein klassischer Lebenslauf, eher ein Logbuch.
+            </p>
+            <div class="cv-hero__meta">
+              <span>Padel · Film · Comics</span>
+              <span>Europa bis 30</span>
+            </div>
+          </div>
+          <aside class="cv-card" aria-label="Privatprofil">
+            <p class="cv-card__eyebrow">Jetzt</p>
+            <p class="cv-card__name">Nico Hennecke</p>
+            <dl class="cv-card__facts">
+              <div>
+                <dt>Modus</dt>
+                <dd>Life</dd>
+              </div>
+              <div>
+                <dt>Basis</dt>
+                <dd>Köln · Rhein</dd>
+              </div>
+              <div>
+                <dt>Fokus</dt>
+                <dd>Padel · Film · Comics · Europa</dd>
+              </div>
+              <div>
+                <dt>Mail</dt>
+                <dd><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></dd>
+              </div>
+            </dl>
+            <a class="btn cv-card__btn" href="/contact.html">Auf ein Kölsch?</a>
+          </aside>
+        </div>
+        <p class="cv-hero__watermark" aria-hidden="true" data-mode="pro">CV</p>
+        <p class="cv-hero__watermark" aria-hidden="true" data-mode="private">LOG</p>
+      </section>
+
+      <section class="section section--cv-track" data-section>
+        <div class="container" data-mode="pro">
+          <div class="cv-block-head">
+            <p class="section__label">Stationen</p>
+            <h2 class="section__title" data-split>Erfahrung</h2>
+          </div>
+
+          <ol class="cv-track">
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">10/2023–HEUTE</div>
+              <div class="cv-track__body">
+                <h3>Art Director</h3>
+                <p class="cv-track__place">K1 Kommunikation GmbH, Köln</p>
+                <p class="cv-track__text">
+                  Markenführung und kreative Gesamtverantwortung für ein mehrköpfiges Team.
+                  Projekte und Kampagnenbudgets im fünfstelligen Bereich; Umsatzsteigerung um 70&nbsp;%
+                  durch Markenentwicklung. Strategien vor Kund*innen und Stakeholdern.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">11/2023–HEUTE</div>
+              <div class="cv-track__body">
+                <h3>Brand Consultant</h3>
+                <p class="cv-track__place">DACH CS GmbH</p>
+                <p class="cv-track__text">
+                  Ganzheitlicher Markenauftritt (digital, analog, interaktiv) für eine große deutsche E-Sportliga.
+                  Beratung der Ligaleitung zu Positionierung und konsistenter Kommunikation über Social,
+                  Branding und Broadcast.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">05/2023–09/2023</div>
+              <div class="cv-track__body">
+                <h3>Grafikdesigner</h3>
+                <p class="cv-track__place">JS Deutschland GmbH</p>
+                <p class="cv-track__text">
+                  Planung und Design von Marketingmaterialien, crossmediale Kampagnen,
+                  Beratung zu Marketingstrategie und Markenkonsistenz, Layouts für Print.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">02/2021–03/2023</div>
+              <div class="cv-track__body">
+                <h3>Mediengestalter</h3>
+                <p class="cv-track__place">Network Genius GmbH</p>
+                <p class="cv-track__text">
+                  Projektleitung Corporate Identity, CI-Handbücher, Kunden-Webprojekte,
+                  Video-Content für Markenkommunikation.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">10/2016–01/2021</div>
+              <div class="cv-track__body">
+                <h3>Werksstudent</h3>
+                <p class="cv-track__place">Saturn Elektro GmbH</p>
+                <p class="cv-track__text">
+                  Regionale Marketing- und Werbemaßnahmen, Point of Sale, Verkaufsförderung —
+                  Abteilungsverkäufe um ca. 20&nbsp;% gesteigert.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="container" data-mode="private">
+          <div class="cv-block-head">
+            <p class="section__label">Einträge</p>
+            <h2 class="section__title" data-split>Außerhalb</h2>
+          </div>
+
+          <ol class="cv-track">
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">laufend</div>
+              <div class="cv-track__body">
+                <h3>Court-Zeit</h3>
+                <p class="cv-track__place">Padel · Beachvolleyball · Gaming</p>
+                <p class="cv-track__text">
+                  Matches, Sessions, kurze Punkte. Sport schauen inklusive — Olympia und Rennsport vorneweg.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">seit immer</div>
+              <div class="cv-track__body">
+                <h3>Sammlung</h3>
+                <p class="cv-track__place">Donald Duck · Kartenspiele · Kunst</p>
+                <p class="cv-track__text">
+                  Comics stapeln, Decks sortieren, Filme schauen, gelegentlich Gedichte schreiben.
+                </p>
+              </div>
+            </li>
+            <li class="cv-track__item" data-reveal>
+              <div class="cv-track__year">bis 30</div>
+              <div class="cv-track__body">
+                <h3>Europa-Mission</h3>
+                <p class="cv-track__place">Reisen · Freizeitparks · Kölsch</p>
+                <p class="cv-track__text">
+                  Möglichst jedes Land gesehen haben. Freizeitparks zählen. Kölsch danach auch.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section section--cv-edu" data-section>
+        <div class="container cv-split" data-mode="pro">
+          <div>
+            <p class="section__label">Bildung</p>
+            <h2 class="section__title" data-split>Ausbildung</h2>
+            <article class="cv-edu" data-reveal>
+              <span class="cv-edu__badge">B.A.</span>
+              <div>
+                <h3>Media Design</h3>
+                <p>Rheinische Hochschule Köln · Schwerpunkt Art Direction &amp; Communication Design · Note 1,1</p>
+              </div>
+            </article>
+            <article class="cv-edu" data-reveal>
+              <span class="cv-edu__badge">B.A.</span>
+              <div>
+                <h3>Sozialwissenschaften</h3>
+                <p>Universität zu Köln</p>
+              </div>
+            </article>
+          </div>
+          <div>
+            <p class="section__label">Werkzeuge</p>
+            <h2 class="section__title" data-split>Stack</h2>
+            <ul class="cv-tools" data-reveal>
+              <li>Adobe CC</li>
+              <li>MS Office</li>
+              <li>KI-Tools</li>
+              <li>CI-Handbücher</li>
+              <li>Broadcast &amp; Social</li>
+              <li>Print &amp; Digital</li>
+            </ul>
+          </div>
+        </div>
+        <div class="container cv-split" data-mode="private">
+          <div>
+            <p class="section__label">Alltag</p>
+            <h2 class="section__title" data-split>Rituale</h2>
+            <article class="cv-edu" data-reveal>
+              <span class="cv-edu__badge">AM</span>
+              <div>
+                <h3>Court, dann Kölsch</h3>
+                <p>Match zuerst, Kopf frei, erst danach Mails.</p>
+              </div>
+            </article>
+          </div>
+          <div>
+            <p class="section__label">Zeug</p>
+            <h2 class="section__title" data-split>Kit</h2>
+            <ul class="cv-tools" data-reveal>
+              <li>Padel-Schläger</li>
+              <li>Controller</li>
+              <li>Comics</li>
+              <li>Kartenspiele</li>
+              <li>Kino-Tickets</li>
+              <li>Reisekarte Europa</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--cv-skills" data-section>
+        <div class="container" data-mode="pro">
+          <p class="section__label">Können</p>
+          <h2 class="section__title" data-split>Marke &amp; Strategie</h2>
+          <ul class="cv-skills" aria-label="Skills Marke">
+            <li>Markenstrategie &amp; Positionierung</li>
+            <li>Kampagnenentwicklung</li>
+            <li>Budget- &amp; Projektverantwortung</li>
+            <li>Stakeholder-Management</li>
+            <li>Cross-funktionale Teamführung</li>
+            <li>Brand Consulting</li>
+          </ul>
+          <h2 class="section__title section__title--spaced" data-split>Kreation</h2>
+          <ul class="cv-skills" aria-label="Skills Kreation">
+            <li>Branding &amp; Corporate Design</li>
+            <li>Art Direction</li>
+            <li>Konzeption &amp; Storytelling</li>
+            <li>Crossmediale Kampagnen</li>
+            <li>Editorial / Print</li>
+            <li>Broadcast &amp; Social</li>
+            <li>Adobe CC · KI-Tools</li>
+            <li>Deutsch · Englisch · Französisch</li>
+          </ul>
+        </div>
+        <div class="container" data-mode="private">
+          <p class="section__label">Lust auf</p>
+          <h2 class="section__title" data-split>Interessen</h2>
+          <ul class="cv-skills" aria-label="Interessen">
+            <li>Padel</li>
+            <li>Beachvolleyball</li>
+            <li>Gaming</li>
+            <li>Film</li>
+            <li>Olympia</li>
+            <li>Rennsport</li>
+            <li>Donald Duck</li>
+            <li>Kartenspiele</li>
+            <li>Kunst</li>
+            <li>Gedichte</li>
+            <li>Freizeitparks</li>
+            <li>Europa bis 30</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section section--partner" data-section>
+        <div class="container container--narrow" data-mode="pro">
+          <h2 class="section__title" data-split>Mehr Kontext?</h2>
+          <p class="section__lead">
+            Cases auf der Startseite — oder direkt schreiben.
+          </p>
+          <div class="cv-cta-row">
+            <a class="btn btn--ghost" href="/contact.html">Kontakt</a>
+          </div>
+        </div>
+        <div class="container container--narrow" data-mode="private">
+          <h2 class="section__title" data-split>Mehr davon?</h2>
+          <p class="section__lead">
+            Cases und Stuff auf der Startseite — oder einfach melden.
+          </p>
+          <div class="cv-cta-row">
+            <a class="btn btn--ghost" href="/contact.html">Schreib mir</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+        <footer class="site-footer">
+</div>
+      <div class="container site-footer__top">
+        <div class="site-footer__brand">
+          <p class="site-footer__name">Nico Hennecke</p>
+          <p class="site-footer__tagline" data-mode="pro">Art Direction aus Köln. Marken mit Wiedererkennungswert.</p>
+          <p class="site-footer__tagline" data-mode="private">Padel, Comics, Kölsch. Der Rest ist unterwegs.</p>
+          <a class="site-footer__cta" href="/contact.html" data-mode="pro">Projekt anfragen →</a>
+          <a class="site-footer__cta" href="/contact.html" data-mode="private">Auf ein Kölsch? →</a>
+        </div>
+</div>
+      <div class="container site-footer__grid">
+        <div>
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/" ><span data-mode="pro">Work</span><span data-mode="private">Stuff</span></a></li>
+            <li><a href="/cv.html" ><span data-mode="pro">CV</span><span data-mode="private">Log</span></a></li>
+            <li><a href="/contact.html"><span data-mode="pro">Kontakt</span><span data-mode="private">Schreib mir</span></a></li>
+          </ul>
+        </div>
+        <div data-mode="pro">
+          <h2>Fähigkeiten</h2>
+          <ul class="site-footer__skills">
+            <li>Markenstrategie</li>
+            <li>Art Direction</li>
+            <li>Kampagnen</li>
+            <li>Corporate Design</li>
+            <li>Storytelling</li>
+            <li>Teamführung</li>
+          </ul>
+        </div>
+        <div data-mode="private">
+          <h2>Nebenbei</h2>
+          <ul class="site-footer__skills">
+            <li>Padel</li>
+            <li>Film</li>
+            <li>Comics</li>
+            <li>Gaming</li>
+            <li>Europa</li>
+            <li>Kölsch</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Kontakt</h2>
+          <ul>
+            <li><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></li>
+            <li><a href="https://instagram.com/henneckedesign" rel="noopener noreferrer" target="_blank">@henneckedesign</a></li>
+            <li>Köln</li>
+          </ul>
+        </div>
+      </div>
+            <div class="container site-footer__bottom">
+        <p>Nico Hennecke © 2026</p>
+        <p class="site-footer__note">Mit Hilfe von KI programmiert</p>
+        <nav class="site-footer__legal" aria-label="Rechtliches">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </nav>
+        <p class="site-footer__motto" data-mode="pro">Seek Discomfort</p>
+        <p class="site-footer__motto" data-mode="private">Seek Comfort</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

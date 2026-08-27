@@ -1,0 +1,271 @@
+// Pro / Private — only hide inactive mode content.
+// Never force display on active nodes (would break flex/grid layouts).
+
+html[data-site-mode='pro'] [data-mode='private'],
+html:not([data-site-mode]) [data-mode='private'],
+html[data-site-mode='private'] [data-mode='pro'] {
+  display: none !important;
+}
+
+.nav-main__mode {
+  display: inline;
+}
+
+html[data-site-mode='pro'] .life-coming-soon {
+  display: none !important;
+}
+
+html[data-site-mode='private'] {
+  main > :not(.life-coming-soon) {
+    display: none !important;
+  }
+
+  .webgl-canvas,
+  .hero-ring-glow,
+  .site-footer,
+  .nav-main,
+  .site-header__pill {
+    display: none !important;
+  }
+
+  .life-coming-soon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100dvh - var(--header-h, 4.5rem));
+    padding-block: clamp(3rem, 12vh, 7rem);
+    text-align: center;
+  }
+
+  .life-coming-soon__inner {
+    max-width: 36rem;
+  }
+
+  .life-coming-soon__eyebrow {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .life-coming-soon__title {
+    margin: 0 0 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 9vw, 4.5rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  .life-coming-soon__text {
+    margin: 0;
+    font-size: clamp(1rem, 2.4vw, 1.15rem);
+    line-height: 1.55;
+    color: var(--color-ink-muted);
+  }
+
+  .life-coming-soon__hint {
+    margin: 1.5rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 72%, transparent);
+  }
+
+  // Blue field, white type, coral accent
+  --color-bg: #1c4ed8;
+  --color-bg-elevated: #2f5feb;
+  --color-ink: #ffffff;
+  --color-ink-muted: #c5d4ff;
+  --color-accent: #ff6b4a;
+  --color-accent-soft: rgba(255, 107, 74, 0.22);
+  --color-accent-alt: #5eead4;
+  --color-accent-warm: #ffb020;
+  --color-border: rgba(255, 255, 255, 0.16);
+  --color-selection: #ff6b4a;
+  --color-selection-text: #ffffff;
+
+  ::selection {
+    background: var(--color-selection);
+    color: var(--color-selection-text);
+  }
+
+  body {
+    background:
+      radial-gradient(95% 70% at 12% -12%, rgba(94, 234, 212, 0.28), transparent 52%),
+      radial-gradient(70% 55% at 100% 0%, rgba(255, 107, 74, 0.22), transparent 48%),
+      radial-gradient(55% 45% at 40% 110%, rgba(255, 176, 32, 0.18), transparent 55%),
+      linear-gradient(165deg, #2563eb 0%, #1c4ed8 45%, #153eb0 100%);
+  }
+
+  &[data-theme='dark'] {
+    --color-bg: #0a1f5c;
+    --color-bg-elevated: #122a7a;
+    --color-ink: #f5f8ff;
+    --color-ink-muted: #9eb0e8;
+    --color-accent: #ff7a5c;
+    --color-accent-soft: rgba(255, 122, 92, 0.2);
+    --color-accent-alt: #5eead4;
+    --color-accent-warm: #ffc14d;
+    --color-border: rgba(245, 248, 255, 0.14);
+    --color-selection: #ff7a5c;
+    --color-selection-text: #0a1f5c;
+
+    body {
+      background:
+        radial-gradient(85% 60% at 0% -8%, rgba(94, 234, 212, 0.16), transparent 52%),
+        radial-gradient(70% 50% at 100% 0%, rgba(255, 122, 92, 0.14), transparent 48%),
+        linear-gradient(180deg, #0d2468 0%, #0a1f5c 50%, #071640 100%);
+    }
+  }
+
+  .section--work {
+    background:
+      radial-gradient(ellipse 55% 50% at 90% 15%, rgba(255, 107, 74, 0.28), transparent 60%),
+      radial-gradient(ellipse 50% 45% at 5% 80%, rgba(94, 234, 212, 0.2), transparent 62%),
+      linear-gradient(180deg, #153eb0 0%, #1c4ed8 50%, #2f5feb 100%);
+  }
+
+  .section--intro {
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 107, 74, 0.08) 100%);
+  }
+
+  .systems-band__panel {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .systems-band__index,
+  .systems-band__tag {
+    color: var(--color-accent);
+  }
+
+  .marquee {
+    background: var(--color-accent);
+    color: #ffffff;
+  }
+
+  .pill-contact {
+    --pill-bg: #ffffff;
+    --pill-bg-hover: #ffffff;
+    --pill-text: #1c4ed8;
+    --pill-icon-bg: var(--color-accent);
+    --pill-icon-color: #ffffff;
+  }
+
+  .branding {
+    color: var(--color-ink);
+  }
+
+  .nav-main__link.is-active {
+    color: var(--color-accent);
+  }
+
+  .text-cta {
+    color: var(--color-accent);
+    border-top-color: var(--color-accent);
+  }
+
+  .gooey-cursor {
+    --gooey-color: var(--color-accent);
+  }
+
+  .theme-toggle,
+  .mode-toggle,
+  .lang-switcher,
+  .hamburger {
+    --ctrl-bg: color-mix(in srgb, #ffffff 16%, transparent);
+    --ctrl-bg-hover: color-mix(in srgb, #ffffff 26%, transparent);
+    color: #ffffff;
+  }
+}
+
+// Carousel ring glow — private blue (soft, not a color wash)
+html[data-site-mode='private'] .hero-ring-glow {
+  background:
+    radial-gradient(
+      ellipse 70% 74% at 50% 42%,
+      rgba(28, 78, 216, 0.45) 0%,
+      rgba(28, 78, 216, 0.18) 40%,
+      transparent 74%
+    );
+}
+
+html[data-site-mode='private'][data-theme='dark'] .hero-ring-glow {
+  background:
+    radial-gradient(
+      ellipse 70% 74% at 50% 42%,
+      rgba(10, 31, 92, 0.5) 0%,
+      rgba(18, 42, 122, 0.2) 42%,
+      transparent 74%
+    );
+}
+
+.mode-toggle {
+  width: auto;
+  min-width: calc(var(--ctrl-size) + 1.1rem);
+  padding-inline: 0.7rem;
+
+  &__clip {
+    width: auto;
+    min-width: 3.1rem;
+    height: 1.15rem;
+    display: grid;
+    overflow: hidden;
+  }
+
+  &__label {
+    grid-area: 1 / 1;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.15rem;
+    text-align: center;
+    transition: transform var(--t-fast) ease;
+  }
+
+  [data-mode-toggle-label='pro'] {
+    transform: translateY(0);
+  }
+
+  [data-mode-toggle-label='private'] {
+    transform: translateY(100%);
+    color: var(--color-accent);
+  }
+
+  html[data-site-mode='private'] & [data-mode-toggle-label='pro'] {
+    transform: translateY(-100%);
+  }
+
+  html[data-site-mode='private'] & [data-mode-toggle-label='private'] {
+    transform: translateY(0);
+  }
+
+  &:hover [data-mode-toggle-label='pro'],
+  &:focus-visible [data-mode-toggle-label='pro'] {
+    transform: translateY(-100%);
+  }
+
+  &:hover [data-mode-toggle-label='private'],
+  &:focus-visible [data-mode-toggle-label='private'] {
+    transform: translateY(0);
+  }
+
+  html[data-site-mode='private'] &:hover [data-mode-toggle-label='private'],
+  html[data-site-mode='private'] &:focus-visible [data-mode-toggle-label='private'] {
+    transform: translateY(-100%);
+  }
+
+  html[data-site-mode='private'] &:hover [data-mode-toggle-label='pro'],
+  html[data-site-mode='private'] &:focus-visible [data-mode-toggle-label='pro'] {
+    transform: translateY(0);
+  }
+}

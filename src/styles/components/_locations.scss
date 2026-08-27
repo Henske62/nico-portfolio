@@ -1,0 +1,55 @@
+.locations {
+  display: grid;
+  gap: 1rem;
+  margin-top: 3rem;
+
+  @media (min-width: 700px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.location-card {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 560;
+    margin-bottom: 1rem;
+  }
+
+  &__dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--color-ink-muted);
+
+    &.is-open {
+      background: var(--color-open);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-open) 25%, transparent);
+    }
+
+    &.is-closed {
+      background: var(--color-closed);
+    }
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  p {
+    color: var(--color-ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  a {
+    font-weight: 560;
+  }
+}

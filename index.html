@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <script>
+      try {
+        var m = localStorage.getItem('nh-site-mode');
+        if (m === 'pro' || m === 'private') document.documentElement.setAttribute('data-site-mode', m);
+      } catch (e) {}
+      try {
+        var t = localStorage.getItem('nh-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+      try {
+        if (sessionStorage.getItem('nh-wipe-out') === '1') document.documentElement.classList.add('is-wipe-pending');
+      } catch (e) {}
+
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Art Director in Köln. Branding mit Fanclub-Potenzial, Kampagnen, Editorial. Seek Discomfort."
+    />
+    <title>Nico Hennecke — Art Director Köln</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,900&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style id="boot-fouc">html:not(.is-app-ready) body{visibility:hidden}html:not(.is-app-ready){background:#e9ebe8}html[data-theme=dark]:not(.is-app-ready){background:#121614}html[data-site-mode=private]:not(.is-app-ready){background:#1c4ed8}html[data-site-mode=private][data-theme=dark]:not(.is-app-ready){background:#153eb0}html.is-wipe-pending:not(.is-app-ready){background:#121614}html[data-theme=dark].is-wipe-pending:not(.is-app-ready){background:#e9ebe8}html[data-site-mode=private].is-wipe-pending:not(.is-app-ready){background:#fff}html.is-wipe-pending:not(.is-app-ready) body{visibility:visible}html.is-wipe-pending:not(.is-app-ready) body>*:not(.transition-overlay){visibility:hidden}</style>
+    <style id="cursor-fouc">.cursor{opacity:0!important;visibility:hidden!important;pointer-events:none!important}.cursor.is-ready.is-primed{opacity:1!important;visibility:visible!important}.cursor__card{opacity:0!important;visibility:hidden!important;width:2.85rem;height:2.85rem}.cursor.is-hover .cursor__card{opacity:1!important;visibility:visible!important}.cursor__card-icon svg{width:16px!important;height:16px!important}</style>
+</head>
+  <body data-barba="wrapper">
+    <a class="skip-link" href="#main">Zum Inhalt</a>
+
+    <div class="cursor" aria-hidden="true" style="opacity:0;visibility:hidden;pointer-events:none">
+      <div class="cursor__dot"></div>
+      <div class="cursor__ring"></div>
+      <div class="cursor__card" style="opacity:0;visibility:hidden;scale:0.35">
+        <span class="cursor__card-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="transition-overlay" aria-hidden="true">
+      <span class="transition-overlay__mark">NH</span>
+    </div>
+    <div class="hero-ring-glow" data-hero-glow aria-hidden="true"></div>
+    <canvas id="webgl-back" class="webgl-canvas webgl-canvas--back" aria-hidden="true"></canvas>
+    <canvas id="webgl-canvas" class="webgl-canvas webgl-canvas--front" aria-hidden="true"></canvas>
+
+    <header class="site-header" data-header>
+      <div class="site-header__inner">
+        <a class="branding" href="/"  aria-label="Nico Hennecke Startseite">Nico Hennecke</a>
+        <div class="site-header__actions" id="site-nav">
+          <nav class="nav-main" aria-label="Hauptnavigation">
+            <ul class="nav-main__list">
+              <li class="nav-main__item"><a class="nav-main__link is-active" href="/" ><span class="nav-main__mode" data-mode="pro">Work</span><span class="nav-main__mode" data-mode="private">Stuff</span></a></li>
+              <li class="nav-main__item"><a class="nav-main__link" href="/cv.html" ><span class="nav-main__mode" data-mode="pro">CV</span><span class="nav-main__mode" data-mode="private">Log</span></a></li>
+            </ul>
+          </nav>
+          <a class="pill-contact site-header__pill" href="/contact.html" data-tone="dark">
+            <span class="pill-contact__label" data-mode="pro">Projekt anfragen</span>
+            <span class="pill-contact__label" data-mode="private">Auf ein Kölsch?</span>
+            <span class="pill-contact__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="site-header__controls">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Darstellung wechseln">
+            <span class="theme-toggle__clip" aria-hidden="true">
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="sun" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.05 5.05l1.56 1.56M17.39 17.39l1.56 1.56M18.95 5.05l-1.56 1.56M6.61 17.39l-1.56 1.56" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="moon" viewBox="0 0 24 24" fill="none">
+                <path d="M18.5 14.2A7.2 7.2 0 0 1 9.8 5.5 7.5 7.5 0 1 0 18.5 14.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <button class="mode-toggle" type="button" data-mode-toggle aria-label="Work- und Life-Modus wechseln" title="Work / Life">
+            <span class="mode-toggle__clip" aria-hidden="true">
+              <span class="mode-toggle__label" data-mode-toggle-label="pro">Work</span>
+              <span class="mode-toggle__label" data-mode-toggle-label="private">Life</span>
+            </span>
+          </button>
+          <button class="lang-switcher" type="button" aria-label="Sprache: Deutsch" >
+            <span class="lang-switcher__clip" aria-hidden="true">
+              <span class="lang-switcher__label" data-lang="current">DE</span>
+              <span class="lang-switcher__label" data-lang="target">EN</span>
+            </span>
+          </button>
+          <button class="hamburger" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Menü öffnen">
+            <svg class="hamburger__icon" viewBox="0 0 16 16" aria-hidden="true">
+              <g class="hamburger__shape" data-hamburger="open">
+                <rect x="1" y="3.5" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="7.25" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="11" width="14" height="1.5" rx="0.75"/>
+              </g>
+              <g class="hamburger__shape" data-hamburger="close">
+                <path d="M3.2 3.2l9.6 9.6M12.8 3.2L3.2 12.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" data-barba="container" data-barba-namespace="home">
+      <section class="hero" data-hero aria-labelledby="hero-title">
+        <div class="hero__fallback" data-hero-fallback aria-hidden="true"></div>
+
+        <div class="hero__loader" data-hero-loader>
+          <p class="hero__loader-eyebrow" data-loader-eyebrow>Nico Hennecke</p>
+          <h1 id="hero-title" class="hero__title" data-hero-title data-mode="pro">
+            Art Direction und Markenauftritt aus Köln.
+          </h1>
+          <h1 class="hero__title" data-hero-title data-mode="private" aria-hidden="true">
+            Padel, Comics, Reisen — und der Rest dazwischen.
+          </h1>
+          <div class="hero__loader-progress" data-loader-progress aria-hidden="true">
+            <span class="hero__loader-progress-fill" data-loader-fill></span>
+          </div>
+          <p class="hero__loader-status" data-loader-status>Laden</p>
+        </div>
+
+        <div class="hero__stage" data-hero-stage role="link" tabindex="0" aria-label="Aktives Projekt öffnen — ziehen zum Drehen">
+        </div>
+
+        <div class="hero__footer">
+          <ul class="hero__services" data-hero-labels data-mode="pro" aria-label="Disziplinen">
+            <li>
+              <button type="button" data-carousel-jump="0" data-carousel-category="branding">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3.25" stroke="currentColor" stroke-width="1.5"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6.1 6.1l1.55 1.55M16.35 16.35l1.55 1.55M17.9 6.1l-1.55 1.55M7.65 16.35l-1.55 1.55" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Branding
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="5" data-carousel-category="art-direction">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7.5h16M7 7.5v9.5M17 7.5v9.5M10 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Art Direction
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="7" data-carousel-category="marketing">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18.5h16M6.5 18.5 10 6.2a2.1 2.1 0 0 1 4 0L17.5 18.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.2 12.5h5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Marketing
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="13" data-carousel-category="editorial">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4.5h7.2L17.5 8v11.5H7V4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14.2 4.5V8h3.3M9.2 11.5h5.6M9.2 14.5h4.2M9.2 17.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Editorial
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="15" data-carousel-category="digital">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.75" y="5" width="16.5" height="11.5" rx="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 20.5h7M12 16.5v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Digital
+              </button>
+            </li>
+          </ul>
+          <ul class="hero__services" data-hero-labels data-mode="private" aria-label="Interessen">
+            <li>
+              <button type="button" data-carousel-jump="0" data-carousel-category="sport">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M12 7.5v4.2l2.8 1.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Sport
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="2" data-carousel-category="play">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 15.5h2.5M13.5 15.5H16M9.5 10h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Play
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="4" data-carousel-category="kultur">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7.5h14v11H5V7.5Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12.5" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                Kultur
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="7" data-carousel-category="sammlung">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.5 5.5h11v13h-11V5.5Z" stroke="currentColor" stroke-width="1.5"/><path d="M9 9.5h6M9 12.5h4.5M9 15.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Sammlung
+              </button>
+            </li>
+            <li>
+              <button type="button" data-carousel-jump="8" data-carousel-category="unterwegs">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.25" stroke="currentColor" stroke-width="1.5"/><path d="M12 4.5c2.2 2.4 3.4 4.8 3.4 7.5S14.2 17.1 12 19.5c-2.2-2.4-3.4-4.8-3.4-7.5S9.8 6.9 12 4.5Z" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 12h15" stroke="currentColor" stroke-width="1.5"/></svg>
+                Unterwegs
+              </button>
+            </li>
+          </ul>
+          <div class="hero__controls" data-hero-controls role="group" aria-label="Projekt-Karussell">
+            <button type="button" class="hero__ctrl" data-carousel-prev aria-label="Vorheriges Projekt">
+              Prev
+            </button>
+            <span class="hero__index" data-carousel-index aria-live="polite">01 / 18</span>
+            <button type="button" class="hero__ctrl" data-carousel-next aria-label="Nächstes Projekt">
+              Next
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--intro" data-section>
+        <div class="container" data-mode="pro">
+          <p class="section__label">Art Director</p>
+          <h2 class="section__title" data-split>
+            Branding so gut, dass das Logo einen eigenen Fanclub verdient.
+          </h2>
+          <p class="section__lead">
+            Hi, ich bin Nico. Ich baue Marken, die man wiedererkennt, bevor man den Namen liest.
+            Mitgliedsanträge für den Logo-Fanclub sind immer offen.
+          </p>
+        </div>
+        <div class="container" data-mode="private">
+          <p class="section__label">Außerhalb des Büros</p>
+          <h2 class="section__title" data-split>
+            Court zuerst. Comics danach. Europa bis 30.
+          </h2>
+          <p class="section__lead">
+            Wenn kein Briefing wartet: Padel, Beachvolleyball, Gaming, Kino und ein Stapel Donald Duck.
+            Plus der Plan, bis 30 jedes Land in Europa gesehen zu haben. Freizeitparks zählen.
+          </p>
+        </div>
+      </section>
+
+      <section class="section section--work" data-section aria-labelledby="work-title">
+        <div class="container work-head" data-mode="pro">
+          <p class="section__label">Selected</p>
+          <h2 id="work-title" class="section__title" data-split>Ausgewählte Arbeiten</h2>
+          <p class="work-head__lead">Drei, die ich gerne zeige: DACH CS, K1 und Grüne LEV. Klick öffnet den Case.</p>
+        </div>
+        <div class="container work-head" data-mode="private">
+          <p class="section__label">Side Quests</p>
+          <h2 class="section__title" data-split>Was mich nebenbei antreibt</h2>
+          <p class="work-head__lead">Kein Pitch. Nur Sport, Sammlung und die nächste Grenze.</p>
+        </div>
+
+                        <div class="work-float" data-work-grid data-mode="pro">
+          <a class="work-float__card work-float__card--lg" href="/projects/dach-cs.html" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-dach-cs-1.webp" alt="DACH CS Masters" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">01</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Art Direction</p>
+              <h3>DACH CS Masters</h3>
+              <p class="work-float__desc">Visuelle Identität für die größte deutsche Counter-Strike-Turnierreihe.</p>
+            </div>
+          </a>
+
+          <a class="work-float__card work-float__card--md" href="/projects/k1.html" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-k1-1.webp" alt="K1 Kommunikation" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">02</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Art Direction</p>
+              <h3>K1 Kommunikation</h3>
+              <p class="work-float__desc">Neues Erscheinungsbild nach über drei Jahrzehnten — Blau, Grün, Megafon.</p>
+            </div>
+          </a>
+
+          <a class="work-float__card work-float__card--sm" href="/projects/gruene-lev.html" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-gruene-lev-1.webp" alt="Grüne LEV — Litfaßsäule" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">03</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Marketing</p>
+              <h3>Grüne LEV</h3>
+              <p class="work-float__desc">Hitze und kühle Orte: Kampagne für Grüne Leverkusen — Litfaßsäule, Flyer, Social.</p>
+            </div>
+          </a>
+        </div>
+
+<div class="work-float" data-mode="private">
+          <article class="work-float__card work-float__card--lg" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/life/life-01.webp" alt="Padel" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">01</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Court</p>
+              <h3>Padel &amp; Beachvolleyball</h3>
+              <p class="work-float__desc">Zwei Sportarten, ein Flow: Smash, Sand, kurze Punkte — und danach gerne ein Kölsch.</p>
+            </div>
+          </article>
+
+          <article class="work-float__card work-float__card--md" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/life/life-08.webp" alt="Donald Duck / Sammlung" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">02</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Sammlung</p>
+              <h3>Donald Duck &amp; Kartenspiele</h3>
+              <p class="work-float__desc">Comics stapeln, Decks sortieren — Kunst darf auch gelb und mit Entenschnabel sein.</p>
+            </div>
+          </article>
+
+          <article class="work-float__card work-float__card--sm" data-float>
+            <div class="work-float__media media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/life/life-10.webp" alt="Europa bis 30" width="960" height="1200" loading="lazy" />
+                </div>
+              </div>
+              <span class="work-float__index">03</span>
+            </div>
+            <div class="work-float__meta">
+              <p class="work-float__tag">Mission</p>
+              <h3>Europa bis 30</h3>
+              <p class="work-float__desc">Jedes Land einmal gesehen haben — Freizeitparks und Rennstrecken zählen mit.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="marquee" data-marquee aria-hidden="true">
+        <div class="marquee__track" data-marquee-track data-mode="pro">
+          <span>Markenstrategie · Positionierung · Kampagnenentwicklung · Branding · Corporate Design · Art Direction · Storytelling · Crossmediale Kampagnen · Stakeholder-Management · Teamführung · Budgetverantwortung · Brand Consulting · CI-Systeme · Broadcast &amp; Social · Adobe CC · KI-Tools ·</span>
+          <span>Markenstrategie · Positionierung · Kampagnenentwicklung · Branding · Corporate Design · Art Direction · Storytelling · Crossmediale Kampagnen · Stakeholder-Management · Teamführung · Budgetverantwortung · Brand Consulting · CI-Systeme · Broadcast &amp; Social · Adobe CC · KI-Tools ·</span>
+          <span>Markenstrategie · Positionierung · Kampagnenentwicklung · Branding · Corporate Design · Art Direction · Storytelling · Crossmediale Kampagnen · Stakeholder-Management · Teamführung · Budgetverantwortung · Brand Consulting · CI-Systeme · Broadcast &amp; Social · Adobe CC · KI-Tools ·</span>
+          <span>Markenstrategie · Positionierung · Kampagnenentwicklung · Branding · Corporate Design · Art Direction · Storytelling · Crossmediale Kampagnen · Stakeholder-Management · Teamführung · Budgetverantwortung · Brand Consulting · CI-Systeme · Broadcast &amp; Social · Adobe CC · KI-Tools ·</span>
+        </div>
+        <div class="marquee__track" data-marquee-track data-mode="private">
+          <span>Court Sense · Fair Play · Sammlerblick · Storytelling · Reiseplanung · Deck-Building · Kino-Nächte · Kölsch-Diplomatie · Match-Tempo · Europa-Karte ·</span>
+          <span>Court Sense · Fair Play · Sammlerblick · Storytelling · Reiseplanung · Deck-Building · Kino-Nächte · Kölsch-Diplomatie · Match-Tempo · Europa-Karte ·</span>
+          <span>Court Sense · Fair Play · Sammlerblick · Storytelling · Reiseplanung · Deck-Building · Kino-Nächte · Kölsch-Diplomatie · Match-Tempo · Europa-Karte ·</span>
+          <span>Court Sense · Fair Play · Sammlerblick · Storytelling · Reiseplanung · Deck-Building · Kino-Nächte · Kölsch-Diplomatie · Match-Tempo · Europa-Karte ·</span>
+        </div>
+      </section>
+
+<section class="section section--systems" data-section>
+        <div class="container systems-layout">
+          <aside class="systems-intro" data-systems-intro>
+            <p class="section__label" data-mode="pro">Scope</p>
+            <p class="section__label" data-mode="private">Interessen</p>
+            <h2 class="section__title section__title--wide" data-split data-mode="pro">
+              Das mach ich so.
+            </h2>
+            <h2 class="section__title section__title--wide" data-split data-mode="private">
+              Und das nebenbei.
+            </h2>
+            <p class="systems-lead" data-mode="pro">
+              Art Direction, Branding, Kampagnen, Editorial, Digital. Alles mit dem Ziel, dass die Marke
+              auch ohne mich weiterläuft.
+            </p>
+            <p class="systems-lead" data-mode="private">
+              Court, Comics, Kino und die Europa-Karte. Seek Comfort, wenn’s passt.
+            </p>
+            <a class="text-cta systems-intro__cta" href="/cv.html" data-mode="pro">
+              <span>Zum CV</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a class="text-cta systems-intro__cta" href="/cv.html" data-mode="private">
+              <span>Zum Log</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </aside>
+
+          <div class="systems-stack" data-systems-stack>
+            <article class="systems-band" data-systems-band>
+              <div class="systems-band__panel">
+                <span class="systems-band__watermark" aria-hidden="true">01</span>
+                <div class="systems-band__top">
+                  <span class="systems-band__index" aria-hidden="true">01</span>
+                  <p class="systems-band__tag" data-mode="pro">Identity</p>
+                  <p class="systems-band__tag" data-mode="private">Sport</p>
+                </div>
+                                <div class="systems-band__body">
+                  <h3 class="systems-band__title" data-mode="pro">Marken mit Fanclub</h3>
+                  <h3 class="systems-band__title" data-mode="private">Court &amp; Tribüne</h3>
+                  <p class="systems-band__copy" data-mode="pro">
+                    Branding, das man wiedererkennt, bevor man den Namen liest. Logo, Typo und Bildsprache
+                    so gesetzt, dass Teams und Partner ohne ständiges Nachsteuern weiterzeichnen.
+                  </p>
+                  <p class="systems-band__copy" data-mode="pro">
+                    Am Anfang steht die eine Idee, die das System trägt. Danach Regeln, die halten.
+                    Mitgliedsanträge für den Logo-Fanclub sind immer offen.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Padel und Beachvolleyball für den Kopf danach. Dazu Sport schauen:
+                    Olympia, Rennsport, alles mit Tempo und Dramaturgie.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Gaming gehört dazu. Kurze Sessions, lange Abende, gerne kompetitiv.
+                    Und danach ein Kölsch. Selbstverständlich.
+                  </p>
+                  <ul class="systems-band__list" data-mode="pro">
+                    <li><strong>Corporate Design</strong><span>Logo, Typo, Farbe, Anwendungen</span></li>
+                    <li><strong>Brand Worlds</strong><span>Bildsprache, Motive, Verbote</span></li>
+                    <li><strong>Guidelines</strong><span>Übergabe für Teams &amp; Partner</span></li>
+                    <li><strong>Templates</strong><span>Print- und Digital-Baukästen</span></li>
+                  </ul>
+                  <ul class="systems-band__list" data-mode="private">
+                    <li><strong>Padel</strong><span>Court, Smash, Flow</span></li>
+                    <li><strong>Beachvolleyball</strong><span>Sand und kurze Punkte</span></li>
+                    <li><strong>Olympia &amp; Rennsport</strong><span>Tribünen-Energie</span></li>
+                    <li><strong>Gaming</strong><span>Controller, Sessions, Rivalität</span></li>
+                  </ul>
+                  <p class="systems-band__process" data-mode="pro">
+                    <span>Ablauf</span>
+                    Briefing → Kernidee → System → Rollout
+                  </p>
+                  <p class="systems-band__process" data-mode="private">
+                    <span>Ablauf</span>
+                    Aufwärmen → Match → Kölsch → Repeat
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="systems-band" data-systems-band>
+              <div class="systems-band__panel">
+                <span class="systems-band__watermark" aria-hidden="true">02</span>
+                <div class="systems-band__top">
+                  <span class="systems-band__index" aria-hidden="true">02</span>
+                  <p class="systems-band__tag" data-mode="pro">Campaign</p>
+                  <p class="systems-band__tag" data-mode="private">Kultur</p>
+                </div>
+                                <div class="systems-band__body">
+                  <h3 class="systems-band__title" data-mode="pro">Kampagnen mit Zug</h3>
+                  <h3 class="systems-band__title" data-mode="private">Film, Kunst &amp; Comics</h3>
+                  <p class="systems-band__copy" data-mode="pro">
+                    Eine Idee, die Print, Plakat und Screen trägt. Key Visuals, die man nicht wegwischen will.
+                    Formate, die aus derselben Welt kommen.
+                  </p>
+                  <p class="systems-band__copy" data-mode="pro">
+                    On set heißt: Referenzen, die halten. Shotlists, die Teams entlasten.
+                    Danach ein Kit für Still und Motion.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Filme schauen, Kunst ansehen, Gedichte schreiben. Und Donald Duck sammeln,
+                    als wäre das eine ernste Disziplin. Spoiler: ist es.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Kartenspiele stapeln sich. Manche zum Spielen, manche zum Anschauen. Beides zählt.
+                  </p>
+                  <ul class="systems-band__list" data-mode="pro">
+                    <li><strong>Kampagnenkonzepte</strong><span>Idee, Hook, System</span></li>
+                    <li><strong>Art Direction on set</strong><span>Referenzen &amp; Shotlists</span></li>
+                    <li><strong>Key Visuals</strong><span>Hero, Varianten, Formate</span></li>
+                    <li><strong>Motion Frames</strong><span>Still-to-Motion Kits</span></li>
+                  </ul>
+                  <ul class="systems-band__list" data-mode="private">
+                    <li><strong>Film</strong><span>Kino, Serien, Abende</span></li>
+                    <li><strong>Kunst</strong><span>schauen, sammeln, reden</span></li>
+                    <li><strong>Gedichte</strong><span>schreiben, wenn’s passt</span></li>
+                    <li><strong>Comics &amp; Decks</strong><span>Donald Duck, Kartenspiele</span></li>
+                  </ul>
+                  <p class="systems-band__process" data-mode="pro">
+                    <span>Ablauf</span>
+                    Idee → Visual → Set → Rollout
+                  </p>
+                  <p class="systems-band__process" data-mode="private">
+                    <span>Ablauf</span>
+                    Schauen → Sammeln → Schreiben → Teilen
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="systems-band" data-systems-band>
+              <div class="systems-band__panel">
+                <span class="systems-band__watermark" aria-hidden="true">03</span>
+                <div class="systems-band__top">
+                  <span class="systems-band__index" aria-hidden="true">03</span>
+                  <p class="systems-band__tag" data-mode="pro">Editorial</p>
+                  <p class="systems-band__tag" data-mode="private">Reisen</p>
+                </div>
+                                <div class="systems-band__body">
+                  <h3 class="systems-band__title" data-mode="pro">Editorial &amp; Produkt</h3>
+                  <h3 class="systems-band__title" data-mode="private">Europa &amp; Parks</h3>
+                  <p class="systems-band__copy" data-mode="pro">
+                    Schrift lieben Menschen schon ewig. Shoutout Gutenberg. Magazine, Guides, Poster und Packaging,
+                    die man anfassen will und die trotzdem digital weiterleben.
+                  </p>
+                  <p class="systems-band__copy" data-mode="pro">
+                    Verpackungen und Ideen, die an einem verregneten Tag noch ein Lächeln rausholen.
+                    Raster und Papierwahl sind Teil der Idee, nicht Nachsorge.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Ziel bis 30: möglichst jedes Land in Europa gesehen haben.
+                    Freizeitparks sind Pflicht. Achterbahn zählt als Kulturprogramm.
+                  </p>
+                  <p class="systems-band__copy" data-mode="private">
+                    Reisen ohne starre Checkliste, aber mit einer Karte voller Haken.
+                    Köln bleibt Basis. Der Rest ist unterwegs.
+                  </p>
+                  <ul class="systems-band__list" data-mode="pro">
+                    <li><strong>Print &amp; Bücher</strong><span>Layout, Sequenz, Papier</span></li>
+                    <li><strong>Packaging</strong><span>Hierarchie &amp; Material</span></li>
+                    <li><strong>Spatial</strong><span>Signage &amp; Ausstellung</span></li>
+                    <li><strong>Lookbooks</strong><span>Saisonale Bildstrecken</span></li>
+                  </ul>
+                  <ul class="systems-band__list" data-mode="private">
+                    <li><strong>Europa bis 30</strong><span>Länder abhaken</span></li>
+                    <li><strong>Freizeitparks</strong><span>Loopings inklusive</span></li>
+                    <li><strong>Rennstrecken</strong><span>wenn’s sich ergibt</span></li>
+                    <li><strong>Köln</strong><span>Heimathafen mit Kölsch</span></li>
+                  </ul>
+                  <p class="systems-band__process" data-mode="pro">
+                    <span>Ablauf</span>
+                    Konzept → Raster → Produktion → Raum
+                  </p>
+                  <p class="systems-band__process" data-mode="private">
+                    <span>Ablauf</span>
+                    Karte → Ticket → Park → nächstes Land
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--about-teaser" data-section aria-labelledby="about-teaser-title">
+        <div class="container about-spread">
+          <div class="about-spread__visual media-reveal" data-reveal>
+            <div class="media-reveal__mask">
+              <div class="media-reveal__zoom">
+                <img
+                  class="media-reveal__img"
+                  src="/images/nico-portrait.webp"
+                  alt="Portrait Nico Hennecke"
+                  width="960"
+                  height="1200"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="about-spread__content">
+            <p class="section__label">About</p>
+            <h2 id="about-teaser-title" class="about-spread__title" data-split data-mode="pro">
+              Henne oder Ecke?
+            </h2>
+            <h2 class="about-spread__title" data-split data-mode="private">
+              Wer hinter dem Schläger steht.
+            </h2>
+            <p class="about-spread__quote" data-mode="pro">Bei mir gibt’s nur die Antwort: beides!</p>
+            <p class="about-spread__quote" data-mode="private">Seek Comfort. Manchmal ist das die bessere Idee.</p>
+            <p class="about-spread__lead" data-mode="pro">
+              Hi, ich bin Nico und Art Director. Manchmal mache ich auch noch andere kreative Sachen.
+              Markenführung, Kampagnen, Editorial. Köln. Seek Discomfort im Prozess und danach.
+            </p>
+            <p class="about-spread__lead" data-mode="private">
+              Sonntags eher auf dem Court als am Schreibtisch. Sport und Olympia schauen,
+              Donald Duck sammeln, Kölsch trinken. Der Plan bis 30: Europa möglichst komplett.
+            </p>
+            <footer class="about-spread__foot">
+              <a class="btn" href="/cv.html" data-mode="pro">Zum CV</a>
+              <a class="btn" href="/cv.html" data-mode="private">Zum Log</a>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--contact" id="contact" data-section aria-labelledby="contact-title">
+        <div class="container">
+          <h2 id="contact-title" class="section__title" data-split data-mode="pro">Sag mir, was du brauchst.</h2>
+          <h2 class="section__title" data-split data-mode="private">Lust auf ein Kölsch oder ein gutes Gespräch?</h2>
+
+          <form class="need-form" data-need-form data-mode="pro">
+            <div class="need-form__bar">
+              <span class="need-form__prefix">Ich brauche</span>
+              <span class="need-form__pills" data-need-pills></span>
+              <button
+                type="button"
+                class="need-form__add"
+                data-need-add
+                
+                aria-label="Leistung hinzufügen"
+                aria-expanded="true"
+              >
+                <span class="need-form__add-icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <path d="M7.5 0v15M15 7.5H0" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </span>
+              </button>
+              <button class="need-form__next" type="submit" >
+                <span>Weiter</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <ul class="need-form__grid" data-need-grid>
+              <li>
+                <button type="button" class="need-form__option is-selected" data-need-option >
+                  <span class="need-form__option-label">Art Direction</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">Corporate Design</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">eine Kampagne</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">Editorial / Print</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">Packaging</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">Digital Brand</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">Spatial Graphics</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option >
+                  <span class="need-form__option-label">eine Zweitmeinung</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+            </ul>
+          </form>
+
+          <form class="need-form" data-need-form data-mode="private">
+            <div class="need-form__bar">
+              <span class="need-form__prefix">Ich hab Bock auf</span>
+              <span class="need-form__pills" data-need-pills></span>
+              <button
+                type="button"
+                class="need-form__add"
+                data-need-add
+                aria-label="Option hinzufügen"
+                aria-expanded="true"
+              >
+                <span class="need-form__add-icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <path d="M7.5 0v15M15 7.5H0" stroke="currentColor" stroke-width="1.5"/>
+                  </svg>
+                </span>
+              </button>
+              <button class="need-form__next" type="submit">
+                <span>Weiter</span>
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10h12m0 0-4.5-4.5M16 10l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <ul class="need-form__grid" data-need-grid>
+              <li>
+                <button type="button" class="need-form__option is-selected" data-need-option>
+                  <span class="need-form__option-label">Padel</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Beachvolleyball</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Gaming</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Kino</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Gedichte tauschen</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">ein Kölsch</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Freizeitpark</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="need-form__option" data-need-option>
+                  <span class="need-form__option-label">Rennwochenende</span>
+                  <span class="need-form__option-action" aria-hidden="true">+</span>
+                </button>
+              </li>
+            </ul>
+          </form>
+
+          <div class="contact-foot">
+            <div class="contact-foot__main">
+              <a class="contact-foot__email" href="mailto:nico@hennecke.email" >
+                nico@hennecke.email
+              </a>
+              <p class="contact-foot__note" data-mode="pro">
+                Antwort meist innerhalb von 24h · Köln &amp; remote
+              </p>
+              <p class="contact-foot__note" data-mode="private">
+                Kein Pitch. Einfach melden · Köln &amp; Umgebung
+              </p>
+            </div>
+            <nav class="contact-foot__nav" aria-label="Weitere Infos">
+              <a href="/cv.html" >CV</a>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+</div>
+      <div class="container site-footer__top">
+        <div class="site-footer__brand">
+          <p class="site-footer__name">Nico Hennecke</p>
+          <p class="site-footer__tagline" data-mode="pro">Art Direction aus Köln. Marken mit Wiedererkennungswert.</p>
+          <p class="site-footer__tagline" data-mode="private">Padel, Comics, Kölsch. Der Rest ist unterwegs.</p>
+          <a class="site-footer__cta" href="/contact.html" data-mode="pro">Projekt anfragen →</a>
+          <a class="site-footer__cta" href="/contact.html" data-mode="private">Auf ein Kölsch? →</a>
+        </div>
+</div>
+      <div class="container site-footer__grid">
+        <div>
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/" ><span data-mode="pro">Work</span><span data-mode="private">Stuff</span></a></li>
+            <li><a href="/cv.html" ><span data-mode="pro">CV</span><span data-mode="private">Log</span></a></li>
+            <li><a href="/contact.html"><span data-mode="pro">Kontakt</span><span data-mode="private">Schreib mir</span></a></li>
+          </ul>
+        </div>
+        <div data-mode="pro">
+          <h2>Fähigkeiten</h2>
+          <ul class="site-footer__skills">
+            <li>Markenstrategie</li>
+            <li>Art Direction</li>
+            <li>Kampagnen</li>
+            <li>Corporate Design</li>
+            <li>Storytelling</li>
+            <li>Teamführung</li>
+          </ul>
+        </div>
+        <div data-mode="private">
+          <h2>Nebenbei</h2>
+          <ul class="site-footer__skills">
+            <li>Padel</li>
+            <li>Film</li>
+            <li>Comics</li>
+            <li>Gaming</li>
+            <li>Europa</li>
+            <li>Kölsch</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Kontakt</h2>
+          <ul>
+            <li><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></li>
+            <li><a href="https://instagram.com/henneckedesign" rel="noopener noreferrer" target="_blank">@henneckedesign</a></li>
+            <li>Köln</li>
+          </ul>
+        </div>
+      </div>
+            <div class="container site-footer__bottom">
+        <p>Nico Hennecke © 2026</p>
+        <p class="site-footer__note">Mit Hilfe von KI programmiert</p>
+        <nav class="site-footer__legal" aria-label="Rechtliches">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </nav>
+        <p class="site-footer__motto" data-mode="pro">Seek Discomfort</p>
+        <p class="site-footer__motto" data-mode="private">Seek Comfort</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

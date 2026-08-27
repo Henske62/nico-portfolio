@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200">
+  <rect width="960" height="1200" fill="#F6F1E8"/>
+  <rect x="34" y="34" width="892" height="1132" rx="32" fill="none" stroke="#FF6B4A" stroke-width="5.5"/>
+  <rect x="50" y="50" width="860" height="1100" rx="22" fill="none" stroke="#FF6B4A" stroke-width="1.6"/>
+  <!-- indices -->
+  <g transform="translate(88, 118)">
+    <g fill="#FF6B4A" color="#FF6B4A">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">E</text>
+      <g transform="translate(0, 42) scale(1.35)"><circle cx="0" cy="0" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="0" cy="0" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="-9" y1="0" x2="9" y2="0" stroke="currentColor" stroke-width="1.4"/></g>
+    </g></g>
+  <g transform="rotate(180 480 600) translate(88, 118)">
+    <g fill="#FF6B4A" color="#FF6B4A">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">E</text>
+      <g transform="translate(0, 42) scale(1.35)"><circle cx="0" cy="0" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="0" cy="0" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="-9" y1="0" x2="9" y2="0" stroke="currentColor" stroke-width="1.4"/></g>
+    </g></g>
+  
+      <!-- upper figure -->
+      <g transform="translate(480, 305) scale(0.92)" fill="#FF6B4A" color="#FF6B4A">
+  <g>
+    <circle cx="0" cy="0" r="92" fill="none" stroke="currentColor" stroke-width="8"/>
+    <ellipse cx="0" cy="0" rx="36" ry="92" fill="none" stroke="currentColor" stroke-width="4"/>
+    <ellipse cx="0" cy="0" rx="92" ry="30" fill="none" stroke="currentColor" stroke-width="4"/>
+    <line x1="-92" y1="0" x2="92" y2="0" stroke="currentColor" stroke-width="4"/>
+    <g transform="translate(0.0,-122.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(61.0,-105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(105.7,-61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(122.0,0.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(105.7,61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(61.0,105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(0.0,122.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-61.0,105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-105.7,61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-122.0,0.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-105.7,-61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-61.0,-105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g>
+    <!-- suitcase -->
+    <rect x="-40" y="128" width="80" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="M-16 128 V112 H16 V128" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+  </g></g>
+      <!-- lower figure (mirrored like a court card) -->
+      <g transform="translate(480, 895) rotate(180) scale(0.92)" fill="#FF6B4A" color="#FF6B4A">
+  <g>
+    <circle cx="0" cy="0" r="92" fill="none" stroke="currentColor" stroke-width="8"/>
+    <ellipse cx="0" cy="0" rx="36" ry="92" fill="none" stroke="currentColor" stroke-width="4"/>
+    <ellipse cx="0" cy="0" rx="92" ry="30" fill="none" stroke="currentColor" stroke-width="4"/>
+    <line x1="-92" y1="0" x2="92" y2="0" stroke="currentColor" stroke-width="4"/>
+    <g transform="translate(0.0,-122.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(61.0,-105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(105.7,-61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(122.0,0.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(105.7,61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(61.0,105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(0.0,122.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-61.0,105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-105.7,61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-122.0,0.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-105.7,-61.0) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g><g transform="translate(-61.0,-105.7) scale(0.9)" fill="#C4A04A"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g>
+    <!-- suitcase -->
+    <rect x="-40" y="128" width="80" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+    <path d="M-16 128 V112 H16 V128" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+  </g></g>
+      <!-- center ornament -->
+      <g transform="translate(480, 600)" fill="#FF6B4A">
+        <line x1="-120" y1="0" x2="-28" y2="0" stroke="#FF6B4A" stroke-width="1.5" opacity="0.45"/>
+        <line x1="28" y1="0" x2="120" y2="0" stroke="#FF6B4A" stroke-width="1.5" opacity="0.45"/>
+        <g transform="scale(1.1)"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g>
+      </g>
+</svg>

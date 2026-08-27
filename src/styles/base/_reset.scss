@@ -1,0 +1,326 @@
+// Tokens — cool stone + forest accent (distinct from cream/serif/terracotta cluster)
+:root {
+  --color-bg: #fafbfa;
+  --color-bg-elevated: #ffffff;
+  --color-ink: #121614;
+  --color-ink-muted: #5a635c;
+  --color-accent: #2a5c48;
+  --color-accent-soft: #e8f1ec;
+  --color-border: rgba(18, 22, 20, 0.09);
+  --color-open: #2a5c48;
+  --color-closed: #8a4a3a;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Manrope', 'Helvetica Neue', sans-serif;
+
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.5rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
+
+  --container: min(1120px, calc(100% - 2.5rem));
+  --header-h: 4.25rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+}
+
+html[data-theme='dark'] {
+  --color-bg: #121614;
+  --color-bg-elevated: #1a1e1b;
+  --color-ink: #e9ebe8;
+  --color-ink-muted: #9aa39c;
+  --color-accent: #7eb89a;
+  --color-accent-soft: #24352c;
+  --color-border: rgba(233, 235, 232, 0.14);
+  --color-open: #7eb89a;
+  --color-closed: #c4897a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(100% 75% at 50% -8%, #ffffff 0%, rgba(255, 255, 255, 0.55) 38%, transparent 68%),
+    radial-gradient(55% 40% at 80% 15%, rgba(255, 255, 255, 0.85), transparent 60%),
+    radial-gradient(50% 35% at 12% 25%, rgba(42, 92, 72, 0.03), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--color-bg) 38%, #f3f5f2 100%);
+  background-attachment: fixed;
+  color: var(--color-ink);
+  transition: background-color 0.35s ease, color 0.35s ease;
+
+html[data-theme='dark'] & {
+  background:
+    radial-gradient(120% 80% at 10% -10%, rgba(126, 184, 154, 0.08), transparent 50%),
+    radial-gradient(90% 60% at 100% 0%, rgba(0, 0, 0, 0.35), transparent 45%),
+    linear-gradient(180deg, #151916 0%, var(--color-bg) 40%, #0f1210 100%);
+}
+  font-family: var(--font-body);
+  font-optical-sizing: auto;
+  font-size: 1rem;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.has-custom-cursor,
+body.has-custom-cursor * {
+  cursor: none !important;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 10000;
+  padding: 0.75rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  transition: top 0.2s var(--ease-out);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.container {
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.container--narrow {
+  max-width: 42rem;
+}
+
+.webgl-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-ring-glow {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  background:
+    radial-gradient(
+      ellipse 68% 72% at 50% 42%,
+      color-mix(in srgb, var(--color-bg) 55%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 22%, transparent) 42%,
+      transparent 72%
+    );
+
+  html[data-theme='dark'] & {
+    background:
+      radial-gradient(
+        ellipse 68% 72% at 50% 42%,
+        color-mix(in srgb, var(--color-bg-elevated) 28%, transparent) 0%,
+        color-mix(in srgb, var(--color-bg) 12%, transparent) 40%,
+        transparent 72%
+      );
+  }
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Dual WebGL layers for front/back card depth (no mid-layer Dom)
+.webgl-canvas--back {
+  z-index: 2;
+}
+
+.webgl-canvas--front {
+  z-index: 3;
+}
+
+.webgl-canvas.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.webgl-canvas.is-reduced {
+  display: none;
+}
+
+html.is-hero-loading,
+html.is-hero-loading body {
+  overflow: hidden;
+}
+
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  background: var(--color-ink);
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+  overflow: hidden;
+
+  &__mark {
+    --nh-fill: 0;
+    position: relative;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(7rem, 34vw, 20rem);
+    line-height: 0.78;
+    letter-spacing: 0.06em;
+    margin-inline-end: -0.06em;
+    text-transform: uppercase;
+    user-select: none;
+    opacity: 0;
+    transform: scale(0.88);
+    will-change: transform, opacity;
+  }
+
+  &__ghost,
+  &__fill {
+    grid-area: 1 / 1;
+    font: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-transform: inherit;
+    white-space: nowrap;
+  }
+
+  // Empty / unfilled portion — soft ghost so fill reads as progress
+  &__ghost {
+    color: color-mix(in srgb, var(--color-bg) 22%, transparent);
+  }
+
+  // Solid fill rises bottom → top like a load bar
+  &__fill {
+    color: var(--color-bg);
+    clip-path: inset(100% 0 0 0);
+    will-change: clip-path;
+  }
+}
+
+// Hard-nav handoff: keep wipe covering until JS plays wipe-out
+html.is-wipe-pending .transition-overlay {
+  clip-path: inset(0 0 0% 0);
+}
+
+html.is-wipe-pending .transition-overlay__mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transition-overlay {
+    will-change: auto;
+  }
+
+  .transition-overlay__mark,
+  .transition-overlay__fill {
+    will-change: auto;
+  }
+}

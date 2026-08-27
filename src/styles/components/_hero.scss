@@ -1,0 +1,228 @@
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: calc(var(--header-h) + 0.5rem) 0 1.5rem;
+  touch-action: pan-y;
+
+  &.is-loading {
+    .hero__footer {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  &__fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      linear-gradient(180deg, transparent 30%, var(--color-bg) 95%),
+      url('/images/projects/project-01.webp') center / cover no-repeat;
+    opacity: 0;
+    pointer-events: none;
+
+    &.is-visible {
+      opacity: 1;
+    }
+  }
+
+  // Full-viewport loading screen (title + progress)
+  &__loader {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.35rem;
+    padding: 1.5rem;
+    pointer-events: none;
+    // Solid cover — prevents title ghosting over the carousel
+    background: var(--color-bg);
+
+    &.is-done {
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
+  // Skip-intro / return home: never let loader copy sit over the carousel
+  &.is-carousel &__loader {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  &.is-carousel &__title {
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  &__loader-eyebrow {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  &__title {
+    position: relative;
+    z-index: 1;
+    width: min(18ch, 92vw);
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 11vw, 7rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  &__loader-progress {
+    position: relative;
+    width: min(11rem, 42vw);
+    height: 1px;
+    margin-top: 0.35rem;
+    background: color-mix(in srgb, var(--color-ink) 14%, transparent);
+    overflow: hidden;
+  }
+
+  &__loader-progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: var(--color-ink);
+    will-change: transform;
+  }
+
+  &__loader-status {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  // Stage reserved for the Three.js canvas (positioned by JS)
+  &__stage {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    width: 100%;
+    min-height: min(62vh, 640px);
+    margin-top: 0.5rem;
+    pointer-events: none;
+
+    .hero.is-carousel & {
+      pointer-events: auto;
+    }
+  }
+
+  &__footer {
+    position: relative;
+    z-index: 2;
+    width: var(--container);
+    margin-inline: auto;
+    display: grid;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    transition: opacity 0.4s ease;
+  }
+
+  &__services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-height: 44px;
+      padding: 0.25rem 0;
+      font-size: 0.92rem;
+      font-weight: 500;
+      opacity: 0.72;
+      border-bottom: 1px solid transparent;
+      transition: opacity 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+      svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        flex-shrink: 0;
+        opacity: 0.85;
+      }
+
+      &:hover,
+      &.is-active {
+        opacity: 1;
+        border-bottom-color: currentColor;
+      }
+
+      &.is-active {
+        color: var(--color-accent);
+      }
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__ctrl {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__index {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    color: var(--color-ink-muted);
+  }
+}
+
+.page-hero {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--header-h) + 3rem) 0 2rem;
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 8vw, 5rem);
+    font-weight: 900;
+    max-width: 18ch;
+    margin-bottom: 1rem;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    line-height: 0.92;
+  }
+}

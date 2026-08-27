@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <script>
+      try {
+        var m = localStorage.getItem('nh-site-mode');
+        if (m === 'pro' || m === 'private') document.documentElement.setAttribute('data-site-mode', m);
+      } catch (e) {}
+      try {
+        var t = localStorage.getItem('nh-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+      try {
+        if (sessionStorage.getItem('nh-wipe-out') === '1') document.documentElement.classList.add('is-wipe-pending');
+      } catch (e) {}
+
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Datenschutzerklärung — Nico Hennecke." />
+    <title>Datenschutz — Nico Hennecke</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,900&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style id="boot-fouc">html:not(.is-app-ready) body{visibility:hidden}html:not(.is-app-ready){background:#e9ebe8}html[data-theme=dark]:not(.is-app-ready){background:#121614}html[data-site-mode=private]:not(.is-app-ready){background:#1c4ed8}html[data-site-mode=private][data-theme=dark]:not(.is-app-ready){background:#153eb0}html.is-wipe-pending:not(.is-app-ready){background:#121614}html[data-theme=dark].is-wipe-pending:not(.is-app-ready){background:#e9ebe8}html[data-site-mode=private].is-wipe-pending:not(.is-app-ready){background:#fff}html.is-wipe-pending:not(.is-app-ready) body{visibility:visible}html.is-wipe-pending:not(.is-app-ready) body>*:not(.transition-overlay){visibility:hidden}</style>
+    <style id="cursor-fouc">.cursor{opacity:0!important;visibility:hidden!important;pointer-events:none!important}.cursor.is-ready.is-primed{opacity:1!important;visibility:visible!important}.cursor__card{opacity:0!important;visibility:hidden!important;width:2.85rem;height:2.85rem}.cursor.is-hover .cursor__card{opacity:1!important;visibility:visible!important}.cursor__card-icon svg{width:16px!important;height:16px!important}</style>
+</head>
+  <body data-barba="wrapper">
+    <a class="skip-link" href="#main">Zum Inhalt</a>
+    <div class="cursor" aria-hidden="true" style="opacity:0;visibility:hidden;pointer-events:none">
+      <div class="cursor__dot"></div>
+      <div class="cursor__ring"></div>
+      <div class="cursor__card" style="opacity:0;visibility:hidden;scale:0.35">
+        <span class="cursor__card-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="transition-overlay" aria-hidden="true">
+      <span class="transition-overlay__mark">NH</span>
+    </div>
+    <div class="hero-ring-glow" data-hero-glow aria-hidden="true"></div>
+    <canvas id="webgl-back" class="webgl-canvas webgl-canvas--back" aria-hidden="true"></canvas>
+    <canvas id="webgl-canvas" class="webgl-canvas webgl-canvas--front" aria-hidden="true"></canvas>
+
+    <header class="site-header" data-header>
+      <div class="site-header__inner">
+        <a class="branding" href="/" aria-label="Nico Hennecke Startseite">Nico Hennecke</a>
+        <div class="site-header__actions" id="site-nav">
+          <nav class="nav-main" aria-label="Hauptnavigation">
+            <ul class="nav-main__list">
+              <li class="nav-main__item"><a class="nav-main__link" href="/"><span class="nav-main__mode" data-mode="pro">Work</span><span class="nav-main__mode" data-mode="private">Stuff</span></a></li>
+              <li class="nav-main__item"><a class="nav-main__link" href="/cv.html"><span class="nav-main__mode" data-mode="pro">CV</span><span class="nav-main__mode" data-mode="private">Log</span></a></li>
+            </ul>
+          </nav>
+          <a class="pill-contact site-header__pill" href="/contact.html" data-tone="dark">
+            <span class="pill-contact__label" data-mode="pro">Projekt anfragen</span>
+            <span class="pill-contact__label" data-mode="private">Auf ein Kölsch?</span>
+            <span class="pill-contact__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="site-header__controls">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Darstellung wechseln">
+            <span class="theme-toggle__clip" aria-hidden="true">
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="sun" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.05 5.05l1.56 1.56M17.39 17.39l1.56 1.56M18.95 5.05l-1.56 1.56M6.61 17.39l-1.56 1.56" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="moon" viewBox="0 0 24 24" fill="none">
+                <path d="M18.5 14.2A7.2 7.2 0 0 1 9.8 5.5 7.5 7.5 0 1 0 18.5 14.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <button class="mode-toggle" type="button" data-mode-toggle aria-label="Work- und Life-Modus wechseln" title="Work / Life">
+            <span class="mode-toggle__clip" aria-hidden="true">
+              <span class="mode-toggle__label" data-mode-toggle-label="pro">Work</span>
+              <span class="mode-toggle__label" data-mode-toggle-label="private">Life</span>
+            </span>
+          </button>
+          <button class="lang-switcher" type="button" aria-label="Sprache: Deutsch">
+            <span class="lang-switcher__clip" aria-hidden="true">
+              <span class="lang-switcher__label" data-lang="current">DE</span>
+              <span class="lang-switcher__label" data-lang="target">EN</span>
+            </span>
+          </button>
+          <button class="hamburger" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Menü öffnen">
+            <svg class="hamburger__icon" viewBox="0 0 16 16" aria-hidden="true">
+              <g class="hamburger__shape" data-hamburger="open">
+                <rect x="1" y="3.5" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="7.25" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="11" width="14" height="1.5" rx="0.75"/>
+              </g>
+              <g class="hamburger__shape" data-hamburger="close">
+                <path d="M3.2 3.2l9.6 9.6M12.8 3.2L3.2 12.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+        <main id="main" data-barba="container" data-barba-namespace="datenschutz">
+      <section class="page-hero" data-section>
+        <div class="container">
+          <p class="section__label">Rechtliches</p>
+          <h1 class="page-hero__title" data-split>Datenschutz</h1>
+        </div>
+      </section>
+
+      <section class="section section--legal" data-section>
+        <div class="container container--narrow">
+          <div class="legal">
+            <p class="legal__lead">
+              Stand: August 2026. Verantwortlicher im Sinne der DSGVO ist Nico Hennecke,
+              Jesuitengasse 92c, 50735 Köln,
+              <a href="mailto:nico@hennecke.email">nico@hennecke.email</a>.
+            </p>
+
+            <h2>1. Allgemeines</h2>
+            <p>
+              Der Schutz personenbezogener Daten hat Priorität. Diese Website ist ein Portfolio und verzichtet
+              auf Tracking- und Analyse-Tools. Es werden nur die Daten verarbeitet, die für den Betrieb der
+              Website und die Beantwortung von Anfragen erforderlich sind.
+            </p>
+
+            <h2>2. Hosting</h2>
+            <p>
+              Beim Aufruf der Website werden durch den Hosting-Anbieter technisch notwendige Server-Logfiles
+              erfasst (z.&nbsp;B. IP-Adresse, Zeitpunkt, aufgerufene Seite, Browser-/Geräteinformationen).
+              Die Verarbeitung erfolgt zur Bereitstellung und Absicherung der Website (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO).
+            </p>
+
+            <h2>3. Kontaktaufnahme</h2>
+            <p>
+              Wenn Sie das Kontaktformular nutzen oder eine E-Mail senden, werden die von Ihnen angegebenen
+              Daten (Name, E-Mail-Adresse, Nachricht) zur Bearbeitung der Anfrage verarbeitet
+              (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b bzw. lit.&nbsp;f DSGVO). Das Formular öffnet lokal Ihr E-Mail-Programm;
+              eine Speicherung auf einem eigenen Server findet darüber nicht statt. Die Daten werden nur so
+              lange aufbewahrt, wie es für die Korrespondenz erforderlich ist.
+            </p>
+
+            <h2>4. Lokale Speicherung (Local Storage)</h2>
+            <p>
+              Zur Speicherung Ihrer Darstellungseinstellungen (z.&nbsp;B. Hell-/Dunkelmodus, Work-/Life-Ansicht)
+              werden Einträge im Local Storage Ihres Browsers gesetzt. Diese Daten verlassen Ihr Gerät nicht
+              und dienen ausschließlich der Nutzerfreundlichkeit (Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO).
+              Sie können die Einträge jederzeit in den Browser-Einstellungen löschen.
+            </p>
+
+            <h2>5. Schriftarten (Google Fonts)</h2>
+            <p>
+              Auf dieser Website werden Schriftarten über Google Fonts eingebunden. Beim Laden der Fonts
+              kann eine Verbindung zu Servern von Google hergestellt werden. Dabei kann Ihre IP-Adresse
+              an Google übermittelt werden. Weitere Informationen:
+              <a href="https://policies.google.com/privacy" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a>.
+              Rechtsgrundlage ist Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (einheitliche Darstellung der Website).
+            </p>
+
+            <h2>6. Cookies</h2>
+            <p>
+              Es werden keine Tracking-Cookies gesetzt. Technisch notwendige Speicherung erfolgt nur über
+              Local Storage, wie unter Punkt 4 beschrieben.
+            </p>
+
+            <h2>7. Ihre Rechte</h2>
+            <p>
+              Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+              Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung. Zudem besteht ein
+              Beschwerderecht bei einer Datenschutzaufsichtsbehörde.
+            </p>
+
+            <h2>8. Kontakt zum Datenschutz</h2>
+            <p>
+              Bei Fragen zum Datenschutz:
+              <a href="mailto:nico@hennecke.email">nico@hennecke.email</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+<footer class="site-footer">
+</div>
+      <div class="container site-footer__top">
+        <div class="site-footer__brand">
+          <p class="site-footer__name">Nico Hennecke</p>
+          <p class="site-footer__tagline" data-mode="pro">Art Direction aus Köln. Marken mit Wiedererkennungswert.</p>
+          <p class="site-footer__tagline" data-mode="private">Padel, Comics, Kölsch. Der Rest ist unterwegs.</p>
+          <a class="site-footer__cta" href="/contact.html" data-mode="pro">Projekt anfragen →</a>
+          <a class="site-footer__cta" href="/contact.html" data-mode="private">Auf ein Kölsch? →</a>
+        </div>
+</div>
+      <div class="container site-footer__grid">
+        <div>
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/" ><span data-mode="pro">Work</span><span data-mode="private">Stuff</span></a></li>
+            <li><a href="/cv.html" ><span data-mode="pro">CV</span><span data-mode="private">Log</span></a></li>
+            <li><a href="/contact.html"><span data-mode="pro">Kontakt</span><span data-mode="private">Schreib mir</span></a></li>
+          </ul>
+        </div>
+        <div data-mode="pro">
+          <h2>Fähigkeiten</h2>
+          <ul class="site-footer__skills">
+            <li>Markenstrategie</li>
+            <li>Art Direction</li>
+            <li>Kampagnen</li>
+            <li>Corporate Design</li>
+            <li>Storytelling</li>
+            <li>Teamführung</li>
+          </ul>
+        </div>
+        <div data-mode="private">
+          <h2>Nebenbei</h2>
+          <ul class="site-footer__skills">
+            <li>Padel</li>
+            <li>Film</li>
+            <li>Comics</li>
+            <li>Gaming</li>
+            <li>Europa</li>
+            <li>Kölsch</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Kontakt</h2>
+          <ul>
+            <li><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></li>
+            <li><a href="https://instagram.com/henneckedesign" rel="noopener noreferrer" target="_blank">@henneckedesign</a></li>
+            <li>Köln</li>
+          </ul>
+        </div>
+      </div>
+            <div class="container site-footer__bottom">
+        <p>Nico Hennecke © 2026</p>
+        <p class="site-footer__note">Mit Hilfe von KI programmiert</p>
+        <nav class="site-footer__legal" aria-label="Rechtliches">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </nav>
+        <p class="site-footer__motto" data-mode="pro">Seek Discomfort</p>
+        <p class="site-footer__motto" data-mode="private">Seek Comfort</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1200" viewBox="0 0 960 1200">
+  <rect width="960" height="1200" fill="#F6F1E8"/>
+  <rect x="34" y="34" width="892" height="1132" rx="32" fill="none" stroke="#1A1F2E" stroke-width="5.5"/>
+  <rect x="50" y="50" width="860" height="1100" rx="22" fill="none" stroke="#1A1F2E" stroke-width="1.6"/>
+  <!-- indices -->
+  <g transform="translate(88, 118)">
+    <g fill="#1A1F2E" color="#1A1F2E">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">D</text>
+      <g transform="translate(0, 42) scale(1.35)"><ellipse cx="0" cy="0" rx="7" ry="6"/><ellipse cx="7" cy="1" rx="5" ry="3"/></g>
+    </g></g>
+  <g transform="rotate(180 480 600) translate(88, 118)">
+    <g fill="#1A1F2E" color="#1A1F2E">
+      <text x="0" y="0" text-anchor="middle"
+        font-family="Big Caslon, Didot, Georgia, serif"
+        font-size="72" font-weight="700">D</text>
+      <g transform="translate(0, 42) scale(1.35)"><ellipse cx="0" cy="0" rx="7" ry="6"/><ellipse cx="7" cy="1" rx="5" ry="3"/></g>
+    </g></g>
+  
+      <!-- upper figure -->
+      <g transform="translate(480, 305) scale(0.92)" fill="#1A1F2E" color="#1A1F2E">
+  <g>
+    <!-- hat -->
+    <ellipse cx="0" cy="-88" rx="58" ry="22"/>
+    <path d="M-38-92 L-18-138 L8-98Z"/>
+    <!-- head -->
+    <ellipse cx="0" cy="-18" rx="78" ry="70" fill="none" stroke="currentColor" stroke-width="9"/>
+    <ellipse cx="-32" cy="-28" rx="16" ry="22" fill="none" stroke="currentColor" stroke-width="5"/>
+    <ellipse cx="32" cy="-28" rx="16" ry="22" fill="none" stroke="currentColor" stroke-width="5"/>
+    <circle cx="-28" cy="-24" r="6"/>
+    <circle cx="36" cy="-24" r="6"/>
+    <!-- bill -->
+    <ellipse cx="0" cy="42" rx="68" ry="32" fill="#C4A04A"/>
+    <ellipse cx="0" cy="42" rx="68" ry="32" fill="none" stroke="currentColor" stroke-width="6"/>
+    <path d="M-58 38 H58" stroke="currentColor" stroke-width="4"/>
+    <!-- bow -->
+    <path d="M-36 92 L0 108 L-36 124Z" fill="#FF6B4A"/>
+    <path d="M36 92 L0 108 L36 124Z" fill="#FF6B4A"/>
+    <circle cx="0" cy="108" r="8" fill="#C4A04A"/>
+  </g></g>
+      <!-- lower figure (mirrored like a court card) -->
+      <g transform="translate(480, 895) rotate(180) scale(0.92)" fill="#1A1F2E" color="#1A1F2E">
+  <g>
+    <!-- hat -->
+    <ellipse cx="0" cy="-88" rx="58" ry="22"/>
+    <path d="M-38-92 L-18-138 L8-98Z"/>
+    <!-- head -->
+    <ellipse cx="0" cy="-18" rx="78" ry="70" fill="none" stroke="currentColor" stroke-width="9"/>
+    <ellipse cx="-32" cy="-28" rx="16" ry="22" fill="none" stroke="currentColor" stroke-width="5"/>
+    <ellipse cx="32" cy="-28" rx="16" ry="22" fill="none" stroke="currentColor" stroke-width="5"/>
+    <circle cx="-28" cy="-24" r="6"/>
+    <circle cx="36" cy="-24" r="6"/>
+    <!-- bill -->
+    <ellipse cx="0" cy="42" rx="68" ry="32" fill="#C4A04A"/>
+    <ellipse cx="0" cy="42" rx="68" ry="32" fill="none" stroke="currentColor" stroke-width="6"/>
+    <path d="M-58 38 H58" stroke="currentColor" stroke-width="4"/>
+    <!-- bow -->
+    <path d="M-36 92 L0 108 L-36 124Z" fill="#FF6B4A"/>
+    <path d="M36 92 L0 108 L36 124Z" fill="#FF6B4A"/>
+    <circle cx="0" cy="108" r="8" fill="#C4A04A"/>
+  </g></g>
+      <!-- center ornament -->
+      <g transform="translate(480, 600)" fill="#1A1F2E">
+        <line x1="-120" y1="0" x2="-28" y2="0" stroke="#1A1F2E" stroke-width="1.5" opacity="0.45"/>
+        <line x1="28" y1="0" x2="120" y2="0" stroke="#1A1F2E" stroke-width="1.5" opacity="0.45"/>
+        <g transform="scale(1.1)"><path d="M0-11 L7 0 L0 11 L-7 0 Z"/></g>
+      </g>
+</svg>

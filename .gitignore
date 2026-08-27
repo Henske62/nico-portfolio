@@ -1,0 +1,16 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+.cursor
+
+# Source mockups in project root (~2 GB) — live assets live in public/
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.HEIC
+/*.JPG
+/*.pdf
+/Sport/

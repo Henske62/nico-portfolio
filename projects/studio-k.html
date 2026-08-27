@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <script>
+      try {
+        var m = localStorage.getItem('nh-site-mode');
+        if (m === 'pro' || m === 'private') document.documentElement.setAttribute('data-site-mode', m);
+      } catch (e) {}
+      try {
+        var t = localStorage.getItem('nh-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+      try {
+        if (sessionStorage.getItem('nh-wipe-out') === '1') document.documentElement.classList.add('is-wipe-pending');
+      } catch (e) {}
+
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Drei Jahre, viele Auftraggeber, ein roter Faden: Branding und Print, die auch außerhalb des Pitchraums noch funktionieren." />
+    <title>Studio K — Nico Hennecke</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;0,900;1,900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style id="boot-fouc">html:not(.is-app-ready) body{visibility:hidden}html:not(.is-app-ready){background:#e9ebe8}html[data-theme=dark]:not(.is-app-ready){background:#121614}html[data-site-mode=private]:not(.is-app-ready){background:#1c4ed8}html[data-site-mode=private][data-theme=dark]:not(.is-app-ready){background:#153eb0}html.is-wipe-pending:not(.is-app-ready){background:#121614}html[data-theme=dark].is-wipe-pending:not(.is-app-ready){background:#e9ebe8}html[data-site-mode=private].is-wipe-pending:not(.is-app-ready){background:#fff}html.is-wipe-pending:not(.is-app-ready) body{visibility:visible}html.is-wipe-pending:not(.is-app-ready) body>*:not(.transition-overlay){visibility:hidden}</style>
+    <style id="cursor-fouc">.cursor{opacity:0!important;visibility:hidden!important;pointer-events:none!important}.cursor.is-ready.is-primed{opacity:1!important;visibility:visible!important}.cursor__card{opacity:0!important;visibility:hidden!important;width:2.85rem;height:2.85rem}.cursor.is-hover .cursor__card{opacity:1!important;visibility:visible!important}.cursor__card-icon svg{width:16px!important;height:16px!important}</style>
+</head>
+  <body data-barba="wrapper">
+    <a class="skip-link" href="#main">Zum Inhalt</a>
+        <div class="cursor" aria-hidden="true" style="opacity:0;visibility:hidden;pointer-events:none">
+      <div class="cursor__dot"></div>
+      <div class="cursor__ring"></div>
+      <div class="cursor__card" style="opacity:0;visibility:hidden;scale:0.35">
+        <span class="cursor__card-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="transition-overlay" aria-hidden="true">
+      <span class="transition-overlay__mark">NH</span>
+    </div>
+    <canvas id="webgl-back" class="webgl-canvas webgl-canvas--back" aria-hidden="true"></canvas>
+    <canvas id="webgl-canvas" class="webgl-canvas webgl-canvas--front" aria-hidden="true"></canvas>
+    <header class="site-header" data-header>
+      <div class="site-header__inner">
+        <a class="branding" href="/" data-cursor="hover" aria-label="Nico Hennecke Startseite">Nico Hennecke</a>
+        <div class="site-header__actions" id="site-nav">
+          <nav class="nav-main" aria-label="Hauptnavigation">
+            <ul class="nav-main__list">
+              <li class="nav-main__item"><a class="nav-main__link is-active" href="/" data-cursor="hover"><span class="nav-main__mode" data-mode="pro">Work</span><span class="nav-main__mode" data-mode="private">Stuff</span></a></li>
+              <li class="nav-main__item"><a class="nav-main__link" href="/cv.html" data-cursor="hover"><span class="nav-main__mode" data-mode="pro">CV</span><span class="nav-main__mode" data-mode="private">Log</span></a></li>
+            </ul>
+          </nav>
+          <a class="pill-contact site-header__pill" href="/contact.html" data-tone="dark">
+            <span class="pill-contact__label" data-mode="pro">Projekt anfragen</span>
+            <span class="pill-contact__label" data-mode="private">Auf ein Kölsch?</span>
+            <span class="pill-contact__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="site-header__controls">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Darstellung wechseln">
+            <span class="theme-toggle__clip" aria-hidden="true">
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="sun" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.05 5.05l1.56 1.56M17.39 17.39l1.56 1.56M18.95 5.05l-1.56 1.56M6.61 17.39l-1.56 1.56" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="theme-toggle__icon" data-theme-toggle-icon="moon" viewBox="0 0 24 24" fill="none">
+                <path d="M18.5 14.2A7.2 7.2 0 0 1 9.8 5.5 7.5 7.5 0 1 0 18.5 14.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <button class="mode-toggle" type="button" data-mode-toggle aria-label="Work- und Life-Modus wechseln" title="Work / Life">
+            <span class="mode-toggle__clip" aria-hidden="true">
+              <span class="mode-toggle__label" data-mode-toggle-label="pro">Work</span>
+              <span class="mode-toggle__label" data-mode-toggle-label="private">Life</span>
+            </span>
+          </button>
+          <button class="lang-switcher" type="button" aria-label="Sprache: Deutsch" data-cursor="hover">
+            <span class="lang-switcher__clip" aria-hidden="true">
+              <span class="lang-switcher__label" data-lang="current">DE</span>
+              <span class="lang-switcher__label" data-lang="target">EN</span>
+            </span>
+          </button>
+          <button class="hamburger" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Menü öffnen">
+            <svg class="hamburger__icon" viewBox="0 0 16 16" aria-hidden="true">
+              <g class="hamburger__shape" data-hamburger="open">
+                <rect x="1" y="3.5" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="7.25" width="14" height="1.5" rx="0.75"/>
+                <rect x="1" y="11" width="14" height="1.5" rx="0.75"/>
+              </g>
+              <g class="hamburger__shape" data-hamburger="close">
+                <path d="M3.2 3.2l9.6 9.6M12.8 3.2L3.2 12.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" data-barba="container" data-barba-namespace="project">
+      <section class="page-hero project-hero" data-section>
+        <div class="container">
+          <p class="section__label"><a href="/">Work</a> / Branding &amp; Print</p>
+          <h1 class="page-hero__title" data-split>Studio K</h1>
+          <p class="section__lead">Branding, Creative und Print für wechselnde Auftraggeber — Markensysteme und Printprodukte, die im Pitch sitzen und im Alltag halten.</p>
+          <div class="project-hero__meta">
+            <div>
+              <span class="project-hero__meta-label">Jahr</span>
+              <p class="project-hero__meta-value">2022–2024</p>
+            </div>
+            <div>
+              <span class="project-hero__meta-label">Fokus</span>
+              <p class="project-hero__meta-value">Branding / Print / Graphic Design</p>
+            </div>
+            <div>
+              <span class="project-hero__meta-label">Client</span>
+              <p class="project-hero__meta-value">Verschiedene</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section project-cover" data-section>
+        <div class="container">
+          <div class="media-reveal project-cover__media" data-reveal>
+            <div class="media-reveal__mask">
+              <div class="media-reveal__zoom">
+                <img class="media-reveal__img" src="/images/projects/wide-studio-k.webp" alt="Studio K — Website Mockup" width="1920" height="1080" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-section>
+        <div class="container project-chapter">
+          <div class="project-chapter__copy">
+            <p class="project-chapter__eyebrow">01 — Briefing</p>
+            <h2 class="project-chapter__title" data-split>Herausforderung</h2>
+                            <p class="project-chapter__text">Zwischen Agenturalltag und freien Aufträgen entstanden Markenauftritte und Printprodukte für sehr unterschiedliche Kontexte — von Corporate bis Kultur. Die eigentliche Aufgabe: jedes Projekt für sich lösen, ohne dass am Ende alles gleich aussieht. Über zwei Jahre kamen so ganz unterschiedliche Branchen und Budgets zusammen, von kleinen Kulturprojekten bis zu etablierten Unternehmen.</p>
+</div>
+          <div class="project-chapter__media">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-1.webp" alt="Studio K — Visitenkarten" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section project-break" data-section>
+        <div class="container">
+          <div class="media-reveal project-break__media" data-reveal>
+            <div class="media-reveal__mask">
+              <div class="media-reveal__zoom">
+                <img class="media-reveal__img" src="/images/projects/pdf-studio-k-b.webp" alt="Studio K — Visitenkarten" width="1920" height="1080" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-section>
+        <div class="container project-chapter project-chapter--flip">
+          <div class="project-chapter__copy">
+            <p class="project-chapter__eyebrow">02 — Idee</p>
+            <h2 class="project-chapter__title" data-split>Konzept</h2>
+                            <p class="project-chapter__text">Jedes Briefing bekam eine eigene visuelle These statt einer Schablone — klare Typografie, reduzierte Systeme, Bildregeln, die auch andere im Team übernehmen können. Bei Print ging es um Lesbarkeit aus der Distanz und Details im Close-up, bei Branding um Signets und Anwendungen, die von der Visitenkarte bis zum Social-Post tragen. Der rote Faden war dabei nie ein Stil, sondern eine Arbeitsweise: erst verstehen, dann gestalten.</p>
+</div>
+          <div class="project-chapter__media">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-2.webp" alt="Studio K — Website" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-section>
+        <div class="container project-chapter">
+          <div class="project-chapter__copy">
+            <p class="project-chapter__eyebrow">03 — Craft</p>
+            <h2 class="project-chapter__title" data-split>Umsetzung</h2>
+                            <p class="project-chapter__text">Logos, Layouts, Broschüren, Poster, Anwendungen — inklusive Reinzeichnung und Übergabe, damit die Linie nach dem Pitch nicht auseinanderfällt. Der Fokus lag auf Systemen: Farbcodes, Typo-Hierarchien und Bildausschnitte, die über Formate hinweg funktionieren. Gerade die Übergabe an interne Teams war mir wichtig — ein System nützt nichts, wenn es nur ich bedienen kann.</p>
+</div>
+          <div class="project-chapter__media">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-3.webp" alt="Studio K — Visitenkarte Detail" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" data-section>
+        <div class="container project-result">
+          <div class="project-result__copy">
+            <p class="project-chapter__eyebrow">04 — Wirkung</p>
+            <h2 class="project-chapter__title" data-split>Fazit</h2>
+                            <p class="project-chapter__text">Eine Sammlung von Arbeiten, die zeigt: Gute Systeme bleiben wiedererkennbar, auch wenn der Auftraggeber wechselt. Handwerk statt Template. Rückblickend ist das für mich auch die Zeit, in der sich mein eigener Stil als Art Director geschärft hat.</p>
+</div>
+          <aside class="project-result__aside">
+            <p class="project-result__aside-label">Scope</p>
+            <ul class="project-scope"><li>Branding</li><li>Print</li><li>Graphic Design</li><li>Creative Direction</li></ul>
+          </aside>
+        </div>
+      </section>
+
+                              <section class="section project-gallery" data-section>
+        <div class="container">
+          <div class="project-gallery__head">
+            <p class="section__label">Galerie</p>
+            <h2 class="section__title" data-split>Ausgewählte Visuals</h2>
+          </div>
+          <div class="project-gallery__grid">
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-12.webp" alt="Studio K — 12" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-13.webp" alt="Studio K — 13" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-14.webp" alt="Studio K — STUDIOK Logo Hintergrund Rot" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-15.webp" alt="Studio K — StudioK1" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-16.webp" alt="Studio K — StudioKWebsite" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-17.webp" alt="Studio K — StudioK VK Mockup" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-18.webp" alt="Studio K — brandingstudiok" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-4.webp" alt="Studio K — 4" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="project-gallery__item">
+            <div class="media-reveal" data-reveal>
+              <div class="media-reveal__mask">
+                <div class="media-reveal__zoom">
+                  <img class="media-reveal__img" src="/images/projects/case-studio-k-9.webp" alt="Studio K — 9" width="1600" height="1200" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section project-visit" data-section data-mode="pro">
+        <div class="container project-visit__inner">
+          <p class="project-visit__label">Website</p>
+          <a class="project-visit__link" href="https://studiok.koeln" target="_blank" rel="noopener noreferrer" data-cursor="hover">
+            <span>studiok.koeln</span>
+            <svg class="project-visit__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 3.5h6.5V10M9.5 6.5 13 3 9.5 6.5v0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 6.5v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <nav class="section project-nav" aria-label="Weitere Projekte">
+        <div class="container project-nav__inner">
+          <a href="/projects/formula-profifahrer.html" data-cursor="hover">
+            <span>Vorheriges</span>
+            <strong>Formula Profifahrer</strong>
+          </a>
+          <a href="/projects/gruene-lev.html" data-cursor="hover">
+            <span>Nächstes</span>
+            <strong>Grüne LEV</strong>
+          </a>
+        </div>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+</div>
+      <div class="container site-footer__top">
+        <div class="site-footer__brand">
+          <p class="site-footer__name">Nico Hennecke</p>
+          <p class="site-footer__tagline" data-mode="pro">Art Direction aus Köln. Marken mit Wiedererkennungswert.</p>
+          <p class="site-footer__tagline" data-mode="private">Padel, Comics, Kölsch. Der Rest ist unterwegs.</p>
+          <a class="site-footer__cta" href="/contact.html" data-mode="pro">Projekt anfragen →</a>
+          <a class="site-footer__cta" href="/contact.html" data-mode="private">Auf ein Kölsch? →</a>
+        </div>
+</div>
+      <div class="container site-footer__grid">
+        <div>
+          <h2>Navigation</h2>
+          <ul>
+            <li><a href="/" ><span data-mode="pro">Work</span><span data-mode="private">Stuff</span></a></li>
+            <li><a href="/cv.html" ><span data-mode="pro">CV</span><span data-mode="private">Log</span></a></li>
+            <li><a href="/contact.html"><span data-mode="pro">Kontakt</span><span data-mode="private">Schreib mir</span></a></li>
+          </ul>
+        </div>
+        <div data-mode="pro">
+          <h2>Fähigkeiten</h2>
+          <ul class="site-footer__skills">
+            <li>Markenstrategie</li>
+            <li>Art Direction</li>
+            <li>Kampagnen</li>
+            <li>Corporate Design</li>
+            <li>Storytelling</li>
+            <li>Teamführung</li>
+          </ul>
+        </div>
+        <div data-mode="private">
+          <h2>Nebenbei</h2>
+          <ul class="site-footer__skills">
+            <li>Padel</li>
+            <li>Film</li>
+            <li>Comics</li>
+            <li>Gaming</li>
+            <li>Europa</li>
+            <li>Kölsch</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Kontakt</h2>
+          <ul>
+            <li><a href="mailto:nico@hennecke.email">nico@hennecke.email</a></li>
+            <li><a href="https://instagram.com/henneckedesign" rel="noopener noreferrer" target="_blank">@henneckedesign</a></li>
+            <li>Köln</li>
+          </ul>
+        </div>
+      </div>
+            <div class="container site-footer__bottom">
+        <p>Nico Hennecke © 2026</p>
+        <p class="site-footer__note">Mit Hilfe von KI programmiert</p>
+        <nav class="site-footer__legal" aria-label="Rechtliches">
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
+        </nav>
+        <p class="site-footer__motto" data-mode="pro">Seek Discomfort</p>
+        <p class="site-footer__motto" data-mode="private">Seek Comfort</p>
+      </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
