@@ -98,12 +98,12 @@ export class HeroCarousel {
     }
 
     this.simplified = isMobile();
-    // Mobile: slightly larger than desktop, but spaced ring (14 slots) so cards stay distinct
-    this.planeW = this.simplified ? 1.15 : 1.2;
-    this.planeH = this.simplified ? 1.61 : 1.68;
-    this.radius = this.simplified ? 4.25 : 4.3;
+    // Mobile: playing-card format, tighter ring spacing
+    this.planeW = this.simplified ? 1.08 : 1.2;
+    this.planeH = this.simplified ? 1.51 : 1.68;
+    this.radius = this.simplified ? 4.0 : 4.3;
     this.baseRadius = this.radius;
-    this.cameraZ = this.simplified ? 6.75 : 9.0;
+    this.cameraZ = this.simplified ? 7.0 : 9.0;
     this.baseCameraZ = this.cameraZ;
     this.tiltDeg = -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
