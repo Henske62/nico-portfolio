@@ -52,6 +52,7 @@ export class HeroCarousel {
     this.velocity = 0;
     this.autoSpeed = -0.00032;
     this.damping = 0.94;
+    this._dragGain = 0.0002;
     // Playing-card proportion (~2.5 × 3.5)
     this.planeW = 1.2;
     this.planeH = 1.68;
@@ -107,6 +108,8 @@ export class HeroCarousel {
     this.tiltDeg = -13;
     this._tiltRad = THREE.MathUtils.degToRad(this.tiltDeg);
     this.bendAmount = 0.12;
+    this.damping = this.simplified ? 0.9 : 0.94;
+    this._dragGain = this.simplified ? 0.0042 : 0.0002;
 
     this.setupRenderer();
     this.setupScene();
@@ -122,9 +125,15 @@ export class HeroCarousel {
     this.start();
   }
 
+  getPixelRatio() {
+    const dpr = window.devicePixelRatio || 1;
+    return this.simplified ? Math.min(dpr, 2) : Math.min(dpr, 1.5);
+  }
+
   setupRenderer() {
+    const pr = this.getPixelRatio();
     const opts = {
-      antialias: false,
+      antialias: this.simplified,
       alpha: true,
       powerPreference: 'high-performance',
       stencil: false,
@@ -133,7 +142,7 @@ export class HeroCarousel {
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, ...opts });
     this.renderer.setClearColor(0x000000, 0);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.simplified ? 1 : 1.5));
+    this.renderer.setPixelRatio(pr);
     // Photos are manually encoded in the fragment shader; skip a second encode.
     this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     this.renderer.toneMapping = THREE.NoToneMapping;
@@ -153,7 +162,7 @@ export class HeroCarousel {
 
     this.rendererBack = new THREE.WebGLRenderer({ canvas: this.canvasBack, ...opts });
     this.rendererBack.setClearColor(0x000000, 0);
-    this.rendererBack.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.simplified ? 1 : 1.5));
+    this.rendererBack.setPixelRatio(pr);
     this.rendererBack.outputColorSpace = THREE.LinearSRGBColorSpace;
     this.rendererBack.toneMapping = THREE.NoToneMapping;
   }
@@ -197,7 +206,9 @@ export class HeroCarousel {
     if (!img || !title) return sourceTex;
 
     const aspect = this.planeW / this.planeH;
-    const H = Math.min(1400, Math.max(960, img.height || 1200));
+    const H = this.simplified
+      ? Math.min(1920, Math.max(1280, Math.round((img.height || 1200) * this.getPixelRatio())))
+      : Math.min(1400, Math.max(960, img.height || 1200));
     const W = Math.round(H * aspect);
     const canvas = document.createElement('canvas');
     canvas.width = W;
@@ -271,6 +282,8 @@ export class HeroCarousel {
 
   loadTextureBank(urls, titles = []) {
     const loader = new THREE.TextureLoader();
+    const maxAniso = this.renderer?.capabilities?.getMaxAnisotropy?.() ?? 1;
+    const aniso = Math.min(maxAniso, this.simplified ? 4 : 8);
     return Promise.all(
       urls.map(
         (url, i) =>
@@ -282,7 +295,7 @@ export class HeroCarousel {
                 tex.minFilter = THREE.LinearFilter;
                 tex.magFilter = THREE.LinearFilter;
                 tex.generateMipmaps = false;
-                tex.anisotropy = 1;
+                tex.anisotropy = aniso;
                 resolve(this.bakeCardLabel(tex, titles[i] || ''));
               },
               undefined,
@@ -590,7 +603,7 @@ export class HeroCarousel {
       stage.style.cursor = '';
     }
 
-    const pr = Math.min(window.devicePixelRatio || 1, this.simplified ? 1 : 1.5);
+    const pr = this.getPixelRatio();
     const bw = Math.round(w * pr);
     const bh = Math.round(h * pr);
     if (this.canvas.width !== bw || this.canvas.height !== bh) {
@@ -639,8 +652,15 @@ export class HeroCarousel {
     };
     const onPointerDown = (e) => this.onPointerDown(e);
     const onPointerMove = (e) => {
-      this.onPointerMove(e);
+      if (this.pointerDown && !this.simplified) this.onPointerMove(e);
       if (!this.pointerDown) this.syncStageCursor(e.clientX, e.clientY);
+    };
+    const onStagePointerMove = (e) => {
+      if (!this.pointerDown || !this.simplified) return;
+      this.onPointerMove(e);
+      const dx = Math.abs(e.clientX - this._pointerStartX);
+      const dy = Math.abs(e.clientY - this._pointerStartY);
+      if (dx > dy && dx > 4) e.preventDefault();
     };
     const onPointerUp = () => this.onPointerUp();
     const onPointerLeave = () => {
@@ -658,6 +678,7 @@ export class HeroCarousel {
     window.addEventListener('resize', onResize, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
     stage.addEventListener('pointerdown', onPointerDown);
+    stage.addEventListener('pointermove', onStagePointerMove, { passive: false });
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('pointerup', onPointerUp);
     stage.addEventListener('pointerleave', onPointerLeave);
@@ -669,6 +690,7 @@ export class HeroCarousel {
       () => window.removeEventListener('resize', onResize),
       () => window.removeEventListener('scroll', onScroll),
       () => stage.removeEventListener('pointerdown', onPointerDown),
+      () => stage.removeEventListener('pointermove', onStagePointerMove),
       () => window.removeEventListener('pointermove', onPointerMove),
       () => window.removeEventListener('pointerup', onPointerUp),
       () => stage.removeEventListener('pointerleave', onPointerLeave),
@@ -842,9 +864,17 @@ export class HeroCarousel {
     if (!this.pointerDown) return;
     const dx = e.clientX - this.lastX;
     const dist = Math.hypot(e.clientX - this._pointerStartX, e.clientY - this._pointerStartY);
-    if (dist > 8) this._pointerMoved = true;
+    if (dist > 6) this._pointerMoved = true;
     this.lastX = e.clientX;
-    this.velocity += dx * 0.0002;
+
+    if (this.simplified) {
+      const dragRot = -dx * this._dragGain;
+      this.rotation += dragRot;
+      this.velocity = dragRot * 0.9;
+      return;
+    }
+
+    this.velocity += dx * this._dragGain;
   }
 
   onPointerUp() {
@@ -938,14 +968,18 @@ export class HeroCarousel {
   }
 
   snapOptional(force = false) {
-    if (!force && Math.abs(this.velocity) > 0.04) return;
+    const threshold = this.simplified ? 0.015 : 0.04;
+    if (!force && Math.abs(this.velocity) > threshold) return;
     const step = (Math.PI * 2) / this.itemCount;
     const nearest = Math.round(this.rotation / step) * step;
     gsap.to(this, {
       rotation: nearest,
-      duration: 0.65,
+      duration: this.simplified ? 0.45 : 0.65,
       ease: 'power3.out',
       overwrite: 'auto',
+      onComplete: () => {
+        this.velocity = 0;
+      },
     });
   }
 
@@ -1011,7 +1045,8 @@ export class HeroCarousel {
     this.velocity *= this.damping;
     if (Math.abs(this.velocity) < 0.00004) this.velocity = 0;
     const modeBoost = this._modeBoost || 0;
-    this.rotation += this.autoSpeed + this.velocity + modeBoost;
+    const auto = this.pointerDown ? 0 : this.autoSpeed;
+    this.rotation += auto + this.velocity + modeBoost;
 
     this.group.rotation.x = this._tiltRad;
     this.group.rotation.y = this.rotation;

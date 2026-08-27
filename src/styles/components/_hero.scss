@@ -130,6 +130,8 @@
 
     .hero.is-carousel & {
       pointer-events: auto;
+      touch-action: none;
+      overscroll-behavior: contain;
     }
   }
 
